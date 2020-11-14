@@ -4,6 +4,8 @@ function preload(){
   MainMenu.onPreload();
   Language.onPreload();
   Introduction.onPreload();
+  PracticeMenu.onPreload();
+  Cooking.onPreload();
 }
 
 
@@ -11,7 +13,7 @@ function setup() {
   createCanvas(1920, 1080);
   background(0);
   //Engine.setCurrentScene(new SampleScene());
-  Engine.setCurrentScene(new Introduction());
+  Engine.setCurrentScene(new Cooking());
 }
 
 function draw() {
