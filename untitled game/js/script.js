@@ -1,9 +1,3 @@
-/**************************************************
-Template p5 project
-Pippin Barr
-
-Here is a description of this template p5 project.
-**************************************************/
 function getMouseVector(){
   return new p5.Vector(mouseX, mouseY, 0);
 }
@@ -11,14 +5,20 @@ function getMouseVector(){
 function preload(){
   SampleScene.onPreload();
   MainMenu.onPreload();
+  Language.onPreload();
+  Introduction.onPreload();
+  PracticeMenu.onPreload();
+  Cooking.onPreload();
 }
 
 
 function setup() {
   createCanvas(1920, 1080);
   background(0);
-  Engine.setCurrentScene(new SampleScene());
+  //Engine.setCurrentScene(new SampleScene());
   //Engine.setCurrentScene(new MainMenu());
+  //Engine.setCurrentScene(new SampleScene());
+  Engine.setCurrentScene(new Cooking());
 }
 
 function draw() {
