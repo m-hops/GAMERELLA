@@ -115,10 +115,29 @@ class GameObject extends BaseObject{
 
   run(){
 
+    for(let i = 0; i != this.components.length; ++i){
+      this.components[i].run();
+    }
+    for(let i = 0; i != this.transform.children.length; ++i){
+      if(this.transform.children[i].owner.enabled){
+        this.transform.children[i].owner.run();
+      }
+    }
   }
 
   updateTransform(renderer){
     this.transform.updateAll();
+  }
+  debugDraw(renderer){
+    if (this.enabled){
+      for(let i = 0; i != this.components.length; ++i){
+        this.components[i].debugDraw(renderer);
+      }
+      for(let i = 0; i != this.transform.children.length; ++i){
+        this.transform.children[i].owner.debugDraw(renderer);
+      }
+    }
+    renderer.addDraw(new GameObjectDebugDraw(this));
   }
   serialize(reg){
     let memento = super.serialize(reg);
@@ -131,3 +150,26 @@ class GameObject extends BaseObject{
   }
 
 };
+
+
+class GameObjectDebugDraw{
+  constructor(go){
+    this.go = go;
+  }
+
+  getTransform(){
+    return this.go.transform;
+  }
+  draw(renderer){
+    push();
+    this.go.transform.world.apply();
+    stroke(255,0,0);
+    line(-10,0, 10, 0);
+    stroke(0,255,0);
+    line(0,-10, 0, 10);
+    if(this.go.name != ""){
+      text(this.go.name, 0,0,200,200);
+    }
+    pop();
+  }
+}
