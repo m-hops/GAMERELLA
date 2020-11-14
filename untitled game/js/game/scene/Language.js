@@ -8,6 +8,9 @@ class Language extends Scene{
     Language.english = loadImage('assets/images/2. language/english.png');
     Language.french = loadImage('assets/images/2. language/francais.png');
     Language.title = loadImage('assets/images/2. language/languageTitle.png');
+    Language.languageIntro = loadSound('assets/sounds/voiceOver/2. language selection/languageIntro.mp3');
+    Language.englishAnswer = loadSound('assets/sounds/voiceOver/2. language selection/eng.mp3');
+    Language.frenchAnswer = loadSound('assets/sounds/voiceOver/2. language selection/fren.mp3');
   }
 
   constructor(){
