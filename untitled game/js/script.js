@@ -17,7 +17,6 @@ function setup() {
   background(0);
   //Engine.setCurrentScene(new SampleScene());
   //Engine.setCurrentScene(new MainMenu());
-  //Engine.setCurrentScene(new SampleScene());
   Engine.setCurrentScene(new Cooking());
 }
 
