@@ -1,19 +1,8 @@
-/**************************************************
-Template p5 project
-Pippin Barr
-
-Here is a description of this template p5 project.
-**************************************************/
-
-
-
-
-
-
 
 function preload(){
   SampleScene.onPreload();
   MainMenu.onPreload();
+  Language.onPreload();
 }
 
 
@@ -21,7 +10,7 @@ function setup() {
   createCanvas(1920, 1080);
   background(0);
   //Engine.setCurrentScene(new SampleScene());
-  Engine.setCurrentScene(new MainMenu());
+  Engine.setCurrentScene(new Language());
 }
 
 function draw() {
