@@ -5,16 +5,31 @@ Pippin Barr
 Here is a description of this template p5 project.
 **************************************************/
 
-// setup()
-//
-// Description of setup() goes here.
-function setup() {
 
+
+
+
+
+
+function preload(){
+  SampleScene.onPreload();
+  MainMenu.onPreload();
 }
 
-// draw()
-//
-// Description of draw() goes here.
-function draw() {
 
+function setup() {
+  createCanvas(1920, 1080);
+  background(0);
+  //Engine.setCurrentScene(new SampleScene());
+  Engine.setCurrentScene(new MainMenu());
+}
+
+function draw() {
+  background(0);
+  if(Engine.currentScene != null){
+    Engine.currentScene.run();
+    Engine.currentScene.draw(Engine.renderer);
+
+    Engine.renderer.render();
+  }
 }
