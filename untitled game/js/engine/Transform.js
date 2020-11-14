@@ -29,6 +29,18 @@ class Transform{
       //   + "\n rotation=" + result.rotation);
     return result;
   }
+  transformVector(vec){
+    let result = p5.Vector.mult(vec, this.scale);
+    result.rotate(this.rotation);
+    result.add(this.position);
+    return result;
+  }
+  inverseTransformVector(vec){
+    let result = p5.Vector.sub(vec, this.position);
+    result.rotate(-this.rotation);
+    vec.div(this.scale);
+    return result;
+  }
   setPosition(x,y,z=this.position.z){
     this.position.x = x;
     this.position.y = y;

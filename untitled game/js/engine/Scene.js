@@ -22,7 +22,11 @@ class Scene extends BaseObject{
       go.scene = null;
     }
   }
-
+  start(){
+    for(let i = 0; i != this.rootGameObjects.length; ++i){
+      this.rootGameObjects[i].start();
+    }
+  }
   run(){
     this.onUpdate();
     for(let i = 0; i != this.rootGameObjects.length; ++i){
@@ -32,20 +36,62 @@ class Scene extends BaseObject{
     this.onPostUpdate();
   }
 
+  getAllComponentAndChildrenWithFlag(flag, onlyActive=false){
+    let result = [];
+    for(let i = 0; i != this.rootGameObjects.length; ++i){
+      let resultInRoot = this.rootGameObjects[i].getAllComponentAndChildrenWithFlag(flag, onlyActive);
+      if(resultInRoot.length > 0){
+        result = result.concat(resultInRoot);
+      }
+    }
+    return result;
+  }
+
+  getAllObjectsCollidingAtUnder(result, object, point, onlyActive=false){
+    if(!onlyActive || object.enabled){
+      let collisionComponents = object.getAllComponentWithFlag(CollisionComponent.ID);
+      if(collisionComponents.length > 0){
+        let pointLocal = object.transform.world.inverseTransformVector(point);
+        //console.log(point + ":" + pointLocal);
+        for(let i = 0; i != collisionComponents.length; ++i){
+          if(collisionComponents[i].isLocalPointIn(pointLocal)){
+            result.push(object);
+            break;
+          }
+        }
+      }
+      // look in children
+      for(let i = 0; i != object.transform.children.length; ++i){
+        this.getAllObjectsCollidingAtUnder(result, object.transform.children[i].owner, point, onlyActive);
+      }
+    }
+  }
+  getAllObjectsCollidingAt(point, onlyActive=false){
+    let result = [];
+    for(let i = 0; i != this.rootGameObjects.length; ++i){
+      this.getAllObjectsCollidingAtUnder(result, this.rootGameObjects[i], point, onlyActive);
+    }
+    return result;
+  }
+
   prepareObjectDraw(object, renderer){
     // update all gameobjects' transform
     for(let i = 0; i != this.rootGameObjects.length; ++i){
       this.rootGameObjects[i].updateTransform();
     }
-
-
-    let rc = object.getFirstComponentWithFlag(RenderComponent.ID);
-    if(rc != null){
-      renderer.addDraw(rc);
-    }
-    //add children game objects' RenderComponent
-    for(let i = 0; i != object.transform.children.length; ++i){
-      this.prepareObjectDraw(object.transform.children[i].owner, renderer);
+    if(object.enabled){
+      let renderComponents = object.getAllComponentWithFlag(RenderComponent.ID);
+      for(let i = 0; i != renderComponents.length; ++i){
+        renderer.addDraw(renderComponents[i]);
+      }
+      // let rc = object.getFirstComponentWithFlag(RenderComponent.ID);
+      // if(rc != null){
+      //   renderer.addDraw(rc);
+      // }
+      //add children game objects' RenderComponent
+      for(let i = 0; i != object.transform.children.length; ++i){
+        this.prepareObjectDraw(object.transform.children[i].owner, renderer);
+      }
     }
   }
   draw(renderer){

@@ -21,7 +21,6 @@ class MainMenu extends Scene{
   }
 
   onUpdate(){
-
   }
 
   onDraw(renderer){

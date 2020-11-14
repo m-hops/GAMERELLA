@@ -5,14 +5,8 @@ class RenderComponent extends GameObjectComponent{
     super(owner);
       this.owner = owner;
   }
-  getTransform(){
-    return this.owner.transform;
-  }
   is(flag){
     return flag === RenderComponent.ID;
-  }
-  setOwner(owner){
-    this.owner = owner;
   }
 
   applyTransform(){

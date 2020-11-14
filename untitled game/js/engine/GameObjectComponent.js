@@ -5,4 +5,16 @@ class GameObjectComponent extends BaseObject{
     super();
     this.owner = owner;
   }
+  getTransform(){
+    return this.owner.transform;
+  }
+  setOwner(owner){
+    this.owner = owner;
+  }
+  onActivate(){
+
+  }
+  onDeactivate(){
+
+  }
 }
