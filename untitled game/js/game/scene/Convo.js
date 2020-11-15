@@ -24,12 +24,8 @@ class Convo extends Scene{
     Convo.ant2 = loadImage('assets/images/convo/ant2.png');
 
     Convo.ss1 = loadImage('assets/images/convo/smallSweat/smallSweat1.png');
-    Convo.ss2 = loadImage('assets/images/convo/smallSweat/smallSweat2.png');
-    Convo.ss3 = loadImage('assets/images/convo/smallSweat/smallSweat3.png');
-
     Convo.bs1 = loadImage('assets/images/convo/bigSweat/bigSweat1.png');
-    Convo.bs2 = loadImage('assets/images/convo/bigSweat/bigSweat2.png');
-    Convo.bs3 = loadImage('assets/images/convo/bigSweat/bigSweat3.png');
+
   }
 
   constructor(){
@@ -44,6 +40,8 @@ class Convo extends Scene{
 
     SceneUtil.addImage(this, 'hOpen', Convo.hOpen, 1000,0,0,410,1000);
     SceneUtil.addImage(this, 'hClosed', Convo.hClosed,600,0,0,350,1000);
+
+    SceneUtil.addImage(this, 'hClosed', Convo.bs1,600,0,0);
 
     SceneUtil.addImage(this, 'player', Convo.player, 0,0,1);
     SceneUtil.addImage(this, 'border', Convo.border,0,0,2);
