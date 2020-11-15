@@ -38,4 +38,13 @@ class SceneUtil{
   static addButtonToObject(object, target, onClick){
     object.addComponent(new InteractiveComponent(target, onClick));
   }
+
+  static StartAllTimelinesOnObject(obj){
+
+    let timelines = obj.getAllComponentWithFlag(TimelineComponent.ID, true, true);
+    for(let i = 0; i != timelines.length; ++i){
+      timelines[i].reset();
+      timelines[i].start();
+    }
+  }
 }

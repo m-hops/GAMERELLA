@@ -37,6 +37,12 @@ class CountdownTimerObject extends GameObject{
     let timerText = this.addComponent(new TextRenderComponent("text","00:00", color(255,0,0), "arial"));
     timerText.size = 64;
   }
+  stopTimer(){
+    this.timerComp.enabled = false;
+  }
+  startTimer(){
+    this.timerComp.enabled = true;
+  }
   isOver(){
     return this.timerComp.time <= 0;
   }
