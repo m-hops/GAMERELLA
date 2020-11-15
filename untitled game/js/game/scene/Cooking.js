@@ -179,6 +179,7 @@ class Cooking extends GameScene{
   static catSFX;
   static catMeow;
   static sizzle;
+  static onFire;
   static onPreload(){
     Cooking.background = loadImage('assets/images/cooking/BKG.png');
     Cooking.border = loadImage('assets/images/cooking/border.png');
@@ -191,6 +192,7 @@ class Cooking extends GameScene{
     Cooking.catSFX = loadSound('assets/sounds/sfx/cooking/cat.mp3');
     Cooking.catMeow = loadSound('assets/sounds/sfx/cooking/meow.mp3');
     Cooking.sizzle = loadSound('assets/sounds/sfx/cooking/sizzle.mp3');
+    Cooking.onFire = loadSound('assets/sounds/sfx/cooking/onFire.mp3');
   }
 
   constructor(game){
@@ -217,6 +219,17 @@ class Cooking extends GameScene{
     this.arm.addComponent(new ImageRenderComponent("Img", Cooking.arm));
     this.arm.addComponent(new InteractiveComponent("Arm interactable", this.armComp, this.armComp.onClick));
     this.arm.addComponent(new AttachToMouse("attach", -200,-400));
+    
+    if(this.game.cookingIteration >= 3){
+      // you're on fire! literally ._.
+      this.armFire = new GameObject(null, "ArmFire");
+      this.armFire.setPosition(-100,500);
+      this.armFire.addComponent(new ImageRenderComponent("Img", Cooking.fire));
+      this.armFire.addComponent(new SFXComponent("Img", Cooking.onFire));
+      this.arm.addChild(this.armFire);
+      this.arm.addComponent(new ShakeComponent("shake", 500, 50));
+    }
+
     this.addGameObject(this.arm);
 
     this.cookingZone = new GameObject(null, "CookingZone");
