@@ -16,8 +16,9 @@ class Game{
   }
   constructor(){
     this.lastGame = -1;
-    this.cookingIteration = 1;
+    this.cookingIteration = 0;
     this.convoIteration = 0;
+    this.gameCount=0;
   }
   moveToNextGame(){
     let index = (this.lastGame+1)%2;
@@ -27,16 +28,22 @@ class Game{
     this.lastGame = index;
   }
   setNextGameByIndex(index){
+    if(this.gameCount >= 6){
 
-    switch(index){
-      case 0:
-        ++this.cookingIteration;
-        Engine.setScene(new Cooking(this));
-        break;
-      case 1:
-        ++this.convoIteration;
-        Engine.setScene(new Convo(this));
-        break;
+      Engine.setScene(new Ending());
+    } else {
+      ++this.gameCount;
+
+      switch(index){
+        case 0:
+          ++this.cookingIteration;
+          Engine.setScene(new Cooking(this));
+          break;
+        case 1:
+          ++this.convoIteration;
+          Engine.setScene(new Convo(this));
+          break;
+      }
     }
   }
 }
@@ -71,7 +78,7 @@ function setup() {
   //game.setNextGameByIndex(0);
   game.moveToNextGame();
   //Engine.setScene(new MainMenu());
-  Engine.setScene(new Introduction());
+  //Engine.setScene(new Introduction());
 }
 
 function draw() {

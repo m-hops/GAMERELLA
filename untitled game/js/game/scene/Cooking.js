@@ -177,6 +177,7 @@ class Cooking extends GameScene{
   static paw;
   static fire;
   static catSFX;
+  static catMeow;
   static sizzle;
   static onPreload(){
     Cooking.background = loadImage('assets/images/cooking/BKG.png');
@@ -188,6 +189,7 @@ class Cooking extends GameScene{
     Cooking.paw = loadImage('assets/images/cooking/paw.png');
     Cooking.fire = loadImage('assets/images/cooking/fire.png');
     Cooking.catSFX = loadSound('assets/sounds/sfx/cooking/cat.mp3');
+    Cooking.catMeow = loadSound('assets/sounds/sfx/cooking/meow.mp3');
     Cooking.sizzle = loadSound('assets/sounds/sfx/cooking/sizzle.mp3');
   }
 
@@ -250,7 +252,7 @@ class Cooking extends GameScene{
     //this.catPosTimeline.start();
     this.catEventTimeline = this.catObj.addComponent(new EventTimeline());
     this.catEventTimeline.addEvent(new EventCallback(125, this, this.onCatHit));
-    this.catEventTimeline.addEvent(new EventSFX(0, Cooking.catSFX));
+    this.catEventTimeline.addEvent(new EventSFX(0, Cooking.catMeow));
     this.addGameObject(this.catObj);
 
     this.catZoneObj = new GameObject(null, "CatZone");

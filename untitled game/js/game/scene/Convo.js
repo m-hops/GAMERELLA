@@ -74,7 +74,7 @@ class Convo extends GameScene{
     this.addGameObject(this.arm);
 
 
-
+    let antCount = 0;
     for(let i=0; i != 6; ++i){
       let angle = random(0,2*PI);
       let radius = random(Convo.eyeRadius*0.2, Convo.eyeRadius);
@@ -84,9 +84,20 @@ class Convo extends GameScene{
       } else {
         v = p5.Vector.add(eye1.getPosition(), v);
       }
+      let sweatType = floor(random(0,2));
+      let antR = random(0,100);
+      let antChance = -10 + game.convoIteration*10;
+      antChance = constrain(antChance, 0, 80);
+      if(antR < antChance){
+        sweatType = 2;
+        ++antCount;
+      }
+      if(game.convoIteration == 3 && antCount == 0){
+        sweatType = 2;
+        ++antCount;
+      }
 
-
-      this.addSweat(v.x, v.y ,floor(random(0,2)));
+      this.addSweat(v.x, v.y , sweatType);
     }
 
 
@@ -101,20 +112,28 @@ class Convo extends GameScene{
 
     let sweatGo = new GameObject(null, "Sweat");
     sweatGo.setPosition(x,y,0.5);
-    let radius = 20;
-    if(type == 0){
-      sweatGo.name = "smallSweat";
-      sweatGo.addComponent(new ImageRenderComponent("img", Convo.ss1,-16,-50));
-      radius = 20;
-    } else {
-      sweatGo.name = "bigSweat";
-      sweatGo.addComponent(new ImageRenderComponent("img", Convo.bs1,-40,-120));
-      radius = 60;
+    let sweatComp = sweatGo.addComponent(new SweatComponent(20));
+    switch(type){
+      case 0:
+        sweatGo.name = "smallSweat";
+        sweatGo.addComponent(new ImageRenderComponent("img", Convo.ss1,-16,-50));
+        sweatComp.radius = 20;
+        break;
+      case 1:
+        sweatGo.name = "bigSweat";
+        sweatGo.addComponent(new ImageRenderComponent("img", Convo.bs1,-40,-120));
+        sweatComp.radius = 60;
+        break;
+      case 2:
+        sweatGo.name = "ant";
+        sweatGo.addComponent(new ImageRenderComponent("img", Convo.ant1,-150,-100));
+        sweatComp.radius = 80;
+        sweatComp.speed = 0;
+        break;
     }
-    sweatGo.addComponent(new SweatComponent(radius));
 
     if(Engine.DebugDrawOn){
-      sweatGo.addComponent(new CircleRenderComponent("", radius));
+      sweatGo.addComponent(new CircleRenderComponent("", sweatComp.radius));
     }
     this.addGameObject(sweatGo);
 
@@ -149,8 +168,12 @@ class SweatComponent extends GameObjectComponent{
   constructor(radius){
     super("Sweat");
     this.radius = radius;
+    this.speed = random(2,5);
   }
-
+  run(){
+    //console.log("SweatComponent" + this.owner.transform.local.y);
+    this.owner.transform.local.position.y += deltaTime/1000 * this.speed;
+  }
   setVisible(value){
     let renders = this.owner.getAllComponentWithFlag(RenderComponent.ID);
     console.log("renders =" + renders.length);
