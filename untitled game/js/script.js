@@ -64,13 +64,14 @@ function setup() {
   //Engine.setScene(new TestScene());
   //PositionTimeline
   //Engine.setScene(new MainMenu());
-    //Engine.setScene(new Driving());
-    //Engine.setScene(new Cooking());
-    //Engine.setScene(new Convo());
+  //Engine.setScene(new Driving());
+  //Engine.setScene(new Cooking());
+  //Engine.setScene(new Convo());
 
   //game.setNextGameByIndex(0);
   game.moveToNextGame();
   //Engine.setScene(new MainMenu());
+  Engine.setScene(new Introduction());
 }
 
 function draw() {
