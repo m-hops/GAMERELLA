@@ -26,6 +26,7 @@ function draw() {
   if(Engine.currentScene != null){
     Engine.currentScene.run();
     Engine.currentScene.draw(Engine.renderer);
+    Engine.currentScene.debugDraw(Engine.renderer);
 
     Engine.renderer.render();
   }
@@ -48,5 +49,27 @@ function mouseClicked(event) {
     }
     //let objs = Engine.currentScene.getAllObjectsCollidingAt(getMouseVector());
     //InteractiveComponent
+  }
+}
+
+
+
+
+class AttachToMouse extends GameObjectComponent{
+
+  constructor(x,y){
+    super();
+    this.x = x;
+    this.y = y;
+  }
+  run(){
+    let localMouse = getMouseVector();
+    localMouse.x += this.x;
+    localMouse.y += this.y;
+    if(this.owner.transform.parent != null){
+      localMouse = this.owner.transform.parent.world.inverseTransformVector(localMouse);
+    }
+    this.owner.transform.local.setPosition(localMouse.x, localMouse.y);
+    //this.owner.transform.local.setPosition(mouseX, mouseY);
   }
 }

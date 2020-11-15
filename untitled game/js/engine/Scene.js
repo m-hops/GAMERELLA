@@ -30,7 +30,9 @@ class Scene extends BaseObject{
   run(){
     this.onUpdate();
     for(let i = 0; i != this.rootGameObjects.length; ++i){
-      this.rootGameObjects[i].run();
+      if(this.rootGameObjects[i].enabled){
+        this.rootGameObjects[i].run();
+      }
     }
 
     this.onPostUpdate();
@@ -104,6 +106,13 @@ class Scene extends BaseObject{
 
     this.onPostDraw(renderer);
   }
+
+  debugDraw(renderer){
+    for(let i = 0; i != this.rootGameObjects.length; ++i){
+      this.rootGameObjects[i].debugDraw(renderer);
+    }
+  }
+
   serialize(reg){
     let memento = super.serialize(reg);
     memento.objs = [];

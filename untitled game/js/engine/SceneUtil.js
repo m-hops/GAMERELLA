@@ -1,7 +1,7 @@
 
 class SceneUtil{
-  static addImage(scene, img, x, y, z, w=null, h=null){
-    let go = new GameObject(null,"img");
+  static addImage(scene, name, img, x, y, z, w=null, h=null){
+    let go = new GameObject(null,name);
     go.transform.local.setPosition(x,y,z);
     go.transform.local.setScale(1,1);
     go.transform.local.rotation = 0;
@@ -12,8 +12,8 @@ class SceneUtil{
     return go;
   }
 
-  static addText(scene, text, color, font, x, y, z, w, h){
-    let go = new GameObject(null,"img");
+  static addText(scene, name, text, color, font, x, y, z, w, h){
+    let go = new GameObject(null,name);
     go.transform.local.setPosition(x,y,z);
     go.transform.local.setScale(1,1);
     go.transform.local.rotation = 0;
@@ -23,8 +23,8 @@ class SceneUtil{
     scene.addGameObject(go);
     return go;
   }
-  static addSFX(scene, sfx, enabled){
-    let go = new GameObject(null,"sfx");
+  static addSFX(scene, name, sfx, enabled){
+    let go = new GameObject(null,name);
     let comp = new SFXComponent(sfx);
     go.addComponent(comp);
     go.enabled = enabled;
