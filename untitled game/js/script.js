@@ -11,6 +11,7 @@ function preload(){
   PracticeMenu.onPreload();
   Cooking.onPreload();
   Driving.onPreload();
+  Convo.onPreload();
 }
 
 
@@ -18,10 +19,11 @@ function setup() {
   createCanvas(1920, 1080);
   background(0);
   Engine.init();
-  //Engine.setCurrentScene(new SampleScene());
-  //Engine.setCurrentScene(new MainMenu());
-  //Engine.setCurrentScene(new Driving());
-  Engine.setScene(new Cooking());
+  //Engine.setScene(new SampleScene());
+  //Engine.setScene(new MainMenu());
+    //Engine.setScene(new Driving());
+    Engine.setScene(new Cooking());
+    //Engine.setScene(new Convo());
 }
 
 function draw() {
