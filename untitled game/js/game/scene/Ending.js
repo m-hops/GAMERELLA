@@ -10,6 +10,8 @@ class Ending extends Scene{
   static compText1;
   static compText2;
   static compText3;
+  static theme;
+  static endVO;
 
   static onPreload(){
     Ending.background1 = loadImage('assets/images/Ending/bkg1.png');
@@ -19,7 +21,8 @@ class Ending extends Scene{
     Ending.text2 = loadImage('assets/images/Ending/text2.png');
     Ending.overlay = loadImage('assets/images/Ending/blueFadeOverlay.png');
 
-
+    Ending.theme = loadSound('assets/sounds/voiceOver/endTheme.mp3');
+    Ending.endVO = loadSound('assets/sounds/voiceOver/endVO.mp3');
   }
 
   constructor(){
@@ -31,7 +34,7 @@ class Ending extends Scene{
     // z at 1 will draw on top
     // z at -1 will draw bellow
     // SceneUtil.addImage(this, "", Ending.background1, -250,0,-1);
-    SceneUtil.addImage(this, "", Ending.background2, -380,0,-1);
+    // SceneUtil.addImage(this, "", Ending.background2, -380,0,-1);
     SceneUtil.addImage(this, "", Ending.overlay, 0,0,0);
     // SceneUtil.addImage(this, "", Ending.text1, 240,240,1);
     SceneUtil.addImage(this, "", Ending.text2, 240,280,1);
@@ -40,7 +43,35 @@ class Ending extends Scene{
     // let myTextObject = SceneUtil.addText(this, "Allo Allo", color(0, 0, 255), 'arial', 175,200, 2, 500, 200); // z at -1 will draw bellow
     // myTextObject.setScale(10,10);
 
-    SceneUtil.addSFX(this, "", MainMenu.theme, true);
+    SceneUtil.addSFX(this, "", Ending.theme, true);
+
+    this.bkg2 = new GameObject(null, "");
+    this.bkg2.setPosition(-380, 0, -1);
+    this.bkg2.addComponent(new ImageRenderComponent("", Ending.background2));
+
+    this.txt2 = new GameObject(null, "");
+    this.txt2.setPosition(240, 280, -2);
+    this.txt2.addComponent(new ImageRenderComponent("", Ending.text2));
+
+    this.addGameObject(this.bkg2);
+    this.addGameObject(this.text2);
+
+    this.masterIntro = new GameObject(null,'');
+
+    let bkg2PosTimeline = this.masterIntro.addComponent(new PositionTimeline());
+    bkg2PosTimeline.targetObject = this.bkg2;
+    bkg2PosTimeline.addKey(0,-380,300,-1);
+    bkg2PosTimeline.addKey(500,-380,-200,-1);
+    bkg2PosTimeline.addKey(1500,-380,0,-4);
+    bkg2PosTimeline.start();
+
+    let endingTxtPosTimeline = this.masterIntro.addComponent(new PositionTimeline());
+    endingTxtPosTimeline.targetObject = this.text2;
+    endingTxtPosTimeline.addKey(0,240,280,-2);
+    endingTxtPosTimeline.addKey(1500,240, 280, 2);
+    endingTxtPosTimeline.start();
+
+    this.addGameObject(this.masterIntro);
 
         this.tryAgainButton = new GameObject(null, "TryAgainButton");
         this.tryAgainButton.setPosition(800,800);

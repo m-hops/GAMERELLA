@@ -68,10 +68,10 @@ function preload(){
   Cooking.onPreload();
   Driving.onPreload();
   Convo.onPreload();
-  Creepy.onPreload();
   Ending.onPreload();
   ConvoIntro.onPreload();
   CookingIntro.onPreload();
+  // Creepy.onPreload();
 }
 
 function setup() {
@@ -95,7 +95,7 @@ function setup() {
   //game.setNextGameByIndex(0);
   // game.moveToNextGame();
   //Engine.setScene(new MainMenu());
-  Engine.setScene(new Introduction());
+  Engine.setScene(new Ending());
 
   //game.cookingIteration = 2;
   //game.setNextGameByIndex(0);
