@@ -28,7 +28,7 @@ class TimelineComponent extends GameObjectComponent{
     this.targetObject = targetObject;
   }
   getTargetObject(){
-    if(this.targetObject != null) return targetObject;
+    if(this.targetObject != null) return this.targetObject;
     return this.owner;
   }
   is(flag){
@@ -113,7 +113,7 @@ class PositionKey extends  Event{
   onLerp(timeline, nextEvent, t){
     //console.log("PositionKey.onLerp " + this.value + " to " + nextEvent.value + " with t =" + t);
     let value = p5.Vector.lerp(this.value, nextEvent.value, t);
-    timeline.owner.transform.local.position = value;
+    timeline.getTargetObject().transform.local.position = value;
   }
 }
 class PositionTimeline extends TimelineComponent{
@@ -145,7 +145,7 @@ class RotationKey extends  Event{
   onLerp(timeline, nextEvent, t){
     //console.log("PositionKey.onLerp " + this.value + " to " + nextEvent.value + " with t =" + t);
     let value = this.value * (1-t) + nextEvent.value * t;
-    timeline.owner.transform.local.rotation = value;
+    timeline.getTargetObject().transform.local.rotation = value;
   }
 }
 class RotationTimeline extends TimelineComponent{

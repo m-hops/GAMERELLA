@@ -23,14 +23,42 @@ class MainMenu extends Scene{
     // z at -1 will draw bellow
     SceneUtil.addImage(this, "", MainMenu.background, 0,0,0);
     SceneUtil.addImage(this, "", MainMenu.title, 80,160,1);
-    SceneUtil.addImage(this, "", MainMenu.start, 1300,900,1);
+    // SceneUtil.addImage(this, "", MainMenu.start, 1300,900,1);
     SceneUtil.addImage(this, "", MainMenu.govLogo, 200,950,1);
 
     SceneUtil.addSFX(this, "", MainMenu.theme, true);
 
-    this.language = new GameObject(null, "toLanguage");
-    this.language.setPosition(1300,900);
-    this.language.addComponent(new RectangleCollision('toLlanguage',0,0,504,137));
+    this.startbtn = new GameObject(null, "toLanguage");
+    this.startbtn.setPosition(1300,900,2);
+    this.startbtn.addComponent(new RectangleCollision('toLanguage',0,0,504,137));
+    this.startbtn.addComponent(new ImageRenderComponent("eng", MainMenu.start));
+
+
+    this.startbtn.addComponent(new ActivateTimelinesOnClick());
+
+    let startbtnTimeline = this.startbtn.addComponent(new EventTimeline());
+
+    startbtnTimeline.addEvent( new EventChangeScene(1000, new Language()));
+
+    let startbtnPosTimeline = this.startbtn.addComponent(new PositionTimeline());
+
+    startbtnPosTimeline.addKey(0, 1300, 900,2);
+    startbtnPosTimeline.addKey(1000, 1300, 600,2);
+
+    this.addGameObject(this.startbtn);
+
+    this.masterIntro = new GameObject(null, "masterIntro");
+
+    let masterIntroStartbtnPosTimeline = this.masterIntro.addComponent(new PositionTimeline());
+
+    masterIntroStartbtnPosTimeline.targetObject = this.startbtn;
+
+    masterIntroStartbtnPosTimeline.addKey(0, 1300, 600, 2);
+    masterIntroStartbtnPosTimeline.addKey(1000,1300,900,2);
+
+    masterIntroStartbtnPosTimeline.start();
+
+    this.addGameObject(this.masterIntro);
 
     // let myTextObject = SceneUtil.addText(this, "Allo Allo", color(0, 0, 255), 'arial', 175,200, 2, 500, 200); // z at -1 will draw bellow
     // myTextObject.setScale(10,10);
