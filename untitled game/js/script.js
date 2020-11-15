@@ -38,7 +38,7 @@ class Game{
   setNextGameByIndex(index){
     if(this.gameCount >= 6){
 
-      Engine.setScene(new Ending());
+      Engine.setScene(new Creepy());
     } else {
       ++this.gameCount;
 
