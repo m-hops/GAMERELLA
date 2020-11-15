@@ -39,6 +39,9 @@ class GameObjectComponent extends BaseObject{
   }
 
 
+  onDispose(){
+
+  }
   debugDraw(renderer){
 
   }

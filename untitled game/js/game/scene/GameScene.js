@@ -4,10 +4,9 @@
 
 class GameScene extends Scene{
 
-  constructor(callbackObj=null, callbackFunc=null){
+  constructor(game){
     super();
-    this.callbackObj = callbackObj;
-    this.callbackFunc = callbackFunc;
+    this.game = game;
   }
   onSetup(){
 
@@ -17,11 +16,16 @@ class GameScene extends Scene{
     this.timerObject.setPosition(800,150,5);
     this.addGameObject(this.timerObject);
 
-    this.resultMsgObject = new ResultMsgObject(this.callbackObj, this.callbackFunc);
+    this.resultMsgObject = new ResultMsgObject(this, this.onEndMessageOver);
     this.resultMsgObject.setPosition(width*0.5,height*0.5,5);
     this.addGameObject(this.resultMsgObject);
   }
-
+  setTimer(ms){
+    this.timerObject.setTime(ms);
+  }
+  onEndMessageOver(){
+    this.game.moveToNextGame();
+  }
   isWinningCondition(){
     return false;
   }

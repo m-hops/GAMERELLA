@@ -184,6 +184,9 @@ class Scene extends BaseObject{
 
   onDispose(){
 
+    for(let i = 0; i != this.rootGameObjects.length; ++i){
+      this.rootGameObjects[i].onDispose();
+    }
   }
 }
 

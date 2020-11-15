@@ -42,11 +42,14 @@ class CookingPaddy extends GameObjectComponent{
   }
   cookStart(){
     this.cooking = true;
-    //MADSFX loop cooking sound
+    Cooking.sizzle.loop();
   }
   cookStop(){
     this.cooking = false;
-    //MADSFX stop cooking sound
+    Cooking.sizzle.stop();
+  }
+  onDispose(){
+    Cooking.sizzle.stop();
   }
   onClick(){
     if(this.cooked){
@@ -173,7 +176,8 @@ class Cooking extends GameScene{
   static pRaw;
   static paw;
   static fire;
-
+  static catSFX;
+  static sizzle;
   static onPreload(){
     Cooking.background = loadImage('assets/images/cooking/BKG.png');
     Cooking.border = loadImage('assets/images/cooking/border.png');
@@ -183,14 +187,18 @@ class Cooking extends GameScene{
     Cooking.pRaw = loadImage('assets/images/cooking/pattyRaw.png');
     Cooking.paw = loadImage('assets/images/cooking/paw.png');
     Cooking.fire = loadImage('assets/images/cooking/fire.png');
-
+    Cooking.catSFX = loadSound('assets/sounds/sfx/cooking/cat.mp3');
+    Cooking.sizzle = loadSound('assets/sounds/sfx/cooking/sizzle.mp3');
   }
 
-  constructor(callbackObj=null, callbackFunc=null){
-    super(callbackObj, callbackFunc);
+  constructor(game){
+    super(game);
   }
   onSetup(){
     super.onSetup();
+    let timeRatio = (5 - (this.game.cookingIteration-1)) / 5.0;
+    if(timeRatio <0) timeRatio = 0;
+    this.setTimer(4000 + 4000 * timeRatio);
     // z at 0 will draw between -1 and 1
     // z at 1 will draw on top
     // z at -1 will draw bellow
@@ -242,6 +250,7 @@ class Cooking extends GameScene{
     //this.catPosTimeline.start();
     this.catEventTimeline = this.catObj.addComponent(new EventTimeline());
     this.catEventTimeline.addEvent(new EventCallback(125, this, this.onCatHit));
+    this.catEventTimeline.addEvent(new EventSFX(0, Cooking.catSFX));
     this.addGameObject(this.catObj);
 
     this.catZoneObj = new GameObject(null, "CatZone");
@@ -271,11 +280,14 @@ class Cooking extends GameScene{
   onUpdate(){
     super.onUpdate();
 
-    if(!this.catActivated && this.paddyComp.isPickedUp){
-      let dist = this.arm.distTo(this.catZoneObj);
-      if(dist < Cooking.CatZoneRadius){
-        this.catActivated = true;
-        SceneUtil.StartAllTimelinesOnObject(this.catObj);
+    // cat logic only after first iteration
+    if(this.game.cookingIteration > 1){
+      if(!this.catActivated && this.paddyComp.isPickedUp){
+        let dist = this.arm.distTo(this.catZoneObj);
+        if(dist < Cooking.CatZoneRadius){
+          this.catActivated = true;
+          SceneUtil.StartAllTimelinesOnObject(this.catObj);
+        }
       }
     }
   }

@@ -276,6 +276,15 @@ class GameObject extends BaseObject{
     return memento;
   }
 
+  onDispose(){
+
+    for(let i = 0; i != this.components.length; ++i){
+      this.components[i].onDispose();
+    }
+    for(let i = 0; i != this.transform.children.length; ++i){
+      this.transform.children[i].owner.onDispose();
+    }
+  }
 };
 
 

@@ -4,20 +4,26 @@ class SFXComponent extends GameObjectComponent{
   constructor(name=null, sfx){
     super(name);
     this.sfx = sfx;
+    this.rate = 1;
   }
   is(flag){
     return flag === SFXComponent.ID;
   }
   onActivate(){
-    this.play();
+    this.loop();
   }
   onDeactivate(){
     this.stop();
   }
+  onDispose(){
+    this.stop();
+  }
   play(){
+    this.sfx.rate(this.rate);
     this.sfx.play();
   }
   loop(){
+    this.sfx.rate(this.rate);
     this.sfx.loop();
   }
   stop(){

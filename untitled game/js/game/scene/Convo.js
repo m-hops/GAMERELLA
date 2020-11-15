@@ -15,6 +15,7 @@ class Convo extends GameScene{
   static bs3;
   static ant1;
   static ant2;
+  static talkSFX;
 
   static onPreload(){
     Convo.background = loadImage('assets/images/convo/BKG.png');
@@ -29,17 +30,23 @@ class Convo extends GameScene{
     Convo.ss1 = loadImage('assets/images/convo/smallSweat/smallSweat1.png');
     Convo.bs1 = loadImage('assets/images/convo/bigSweat/bigSweat1.png');
 
+    Convo.talkSFX = loadSound('assets/sounds/voiceOver/Convo/ambience.mp3');
   }
 
-  constructor(callbackObj, callbackFunc){
-    super(callbackObj, callbackFunc);
+  constructor(game){
+    super(game);
   }
   onSetup(){
     super.onSetup();
+    let timeRatio = (5 - (this.game.convoIteration-1)) / 5.0;
+    timeRatio = constrain(timeRatio, 0, 1);
+    this.setTimer(5000 + 5000 * timeRatio);
     // z at 0 will draw between -1 and 1
     // z at 1 will draw on top
     // z at -1 will draw bellow
-    SceneUtil.addImage(this, 'background', Convo.background, 0,0,-2);
+    let bgObj = SceneUtil.addImage(this, 'background', Convo.background, 0,0,-2);
+    let talkSFX = bgObj.addComponent(new SFXComponent(null, Convo.talkSFX));
+    talkSFX.rate = 1 + (1-timeRatio) * 1.5;
 
     SceneUtil.addImage(this, 'border', Convo.border,0,0,2);
 

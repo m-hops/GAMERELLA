@@ -16,6 +16,8 @@ class Game{
   }
   constructor(){
     this.lastGame = -1;
+    this.cookingIteration = 1;
+    this.convoIteration = 0;
   }
   moveToNextGame(){
     let index = (this.lastGame+1)%2;
@@ -28,10 +30,12 @@ class Game{
 
     switch(index){
       case 0:
-        Engine.setScene(new Cooking(this, this.moveToNextGame));
+        ++this.cookingIteration;
+        Engine.setScene(new Cooking(this));
         break;
       case 1:
-        Engine.setScene(new Convo(this, this.moveToNextGame));
+        ++this.convoIteration;
+        Engine.setScene(new Convo(this));
         break;
     }
   }
