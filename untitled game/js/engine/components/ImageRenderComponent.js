@@ -15,6 +15,7 @@ class ImageRenderComponent extends RenderComponent{
       //console.log("Draw ImageRenderComponent");
       push();
       this.applyTransform();
+      //tint(255,255,255,127);
       //stroke(255, 204, 0);
       //noFill();
       //rect(this.transform.world.position.x - 10, this.transform.world.position.y - 10, 20, 20)

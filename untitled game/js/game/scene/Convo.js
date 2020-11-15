@@ -1,5 +1,5 @@
-class Convo extends Scene{
-  static eyeRadius = 450;
+class Convo extends GameScene{
+  static eyeRadius = 400;
   static playerOverlayWidth = 2651;
   static playerOverlayHeight = 1080;
   static background;
@@ -32,12 +32,10 @@ class Convo extends Scene{
   }
 
   constructor(callbackObj, callbackFunc){
-    super();
-    this.callbackObj = callbackObj;
-    this.callbackFunc = callbackFunc;
+    super(callbackObj, callbackFunc);
   }
   onSetup(){
-
+    super.onSetup();
     // z at 0 will draw between -1 and 1
     // z at 1 will draw on top
     // z at -1 will draw bellow
@@ -56,7 +54,7 @@ class Convo extends Scene{
     let eye0 = this.player.addChild(new GameObject(null, "eye"));
     eye0.setPosition(-Convo.playerOverlayWidth*0.18,Convo.playerOverlayHeight*0.5,1);
     let eye1 = this.player.addChild(new GameObject(null, "eye"));
-    eye1.setPosition(Convo.playerOverlayWidth*0.20,Convo.playerOverlayHeight*0.5,1);
+    eye1.setPosition(Convo.playerOverlayWidth*0.21,Convo.playerOverlayHeight*0.5,1);
     //console.log("player has child=" +this.player.transform.children.length);
     this.addGameObject(this.player);
 
@@ -69,15 +67,19 @@ class Convo extends Scene{
     this.addGameObject(this.arm);
 
 
-    this.timerObject = new CountdownTimerObject();
-    this.timerObject.setPosition(800,150,5);
-    this.addGameObject(this.timerObject);
 
-    this.resultMsgObject = new ResultMsgObject(this.callbackObj, this.callbackFunc);
-    this.resultMsgObject.nextScene = new Driving();
-    this.addGameObject(this.resultMsgObject);
-    for(let i=0; i != 5; ++i){
-      this.addSweat(random(400,1000), random(300,800),floor(random(0,2)));
+    for(let i=0; i != 6; ++i){
+      let angle = random(0,2*PI);
+      let radius = random(Convo.eyeRadius*0.2, Convo.eyeRadius);
+      let v = p5.Vector.fromAngle(angle, radius);
+      if(random(0,2) < 1){
+        v = p5.Vector.add(eye0.getPosition(), v);
+      } else {
+        v = p5.Vector.add(eye1.getPosition(), v);
+      }
+
+
+      this.addSweat(v.x, v.y ,floor(random(0,2)));
     }
 
 
@@ -126,17 +128,7 @@ class Convo extends Scene{
     return true;
   }
   onUpdate(){
-
-    if(this.timerObject.isOver() && !this.resultMsgObject.isTimerActive()){
-      //check if all the sweat are outside the eyes
-      //this.resultMsgObject.setFail();
-      let win = this.isWinningCondition();
-      if(!win){
-        this.resultMsgObject.setFail();
-      } else {
-        this.resultMsgObject.setSuccess();
-      }
-    }
+    super.onUpdate();
 
   }
 

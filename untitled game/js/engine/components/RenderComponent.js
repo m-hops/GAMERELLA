@@ -10,11 +10,13 @@ class RenderComponent extends GameObjectComponent{
 
   applyTransform(){
     this.owner.transform.world.apply();
+
   }
+
   draw(renderer){
     //console.log("Draw RenderComponent");
     push();
-    this.owner.transform.world.apply();
+    this.applyTransform();
     stroke(255, 204, 0);
     noFill();
     //rect(this.transform.world.position.x - 10, this.transform.world.position.y - 10, 20, 20)
@@ -35,6 +37,7 @@ class CircleRenderComponent extends RenderComponent{
       push();
       this.applyTransform();
       noFill();
+      stroke(255,0,0);
       circle(0,0,this.radius*2);
       pop();
     }

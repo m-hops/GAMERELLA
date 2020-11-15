@@ -217,6 +217,25 @@ class EventSFX extends  Event{
     }
   }
 }
+class EventCallback extends  Event{
+  constructor(time, callbackObj, callbackFunc){
+    super();
+    this.begin = this.end = time;
+    this.callbackObj = callbackObj;
+    this.callbackFunc = callbackFunc;
+  }
+  onStart(timeline){
+    if(this.callbackFunc != null){
+      if(this.callbackObj != null){
+        this.callbackFunc.apply(this.callbackObj);
+      } else {
+        this.callbackFunc();
+      }
+    } else {
+      console.log("EventCallback has no callback set");
+    }
+  }
+}
 
 class EventTimeline extends TimelineComponent{
 

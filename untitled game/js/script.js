@@ -5,24 +5,24 @@ function getMouseVector(){
   return new p5.Vector(mouseX, mouseY, 0);
 }
 
-function preload(){
-  SampleScene.onPreload();
-  MainMenu.onPreload();
-  Language.onPreload();
-  Introduction.onPreload();
-  PracticeMenu.onPreload();
-  Cooking.onPreload();
-  Driving.onPreload();
-  Convo.onPreload();
-  Ending.onPreload();
-}
 
 class Game{
+  static ImgSuccess;
+  static ImgFail;
+  static onPreload(){
 
+    Game.ImgFail = loadImage('assets/images/generalAssets/FAILURE.png');
+    Game.ImgSuccess = loadImage('assets/images/generalAssets/GOOD.png');
+  }
+  constructor(){
+    this.lastGame = -1;
+  }
   moveToNextGame(){
-    let index = floor(random(0,2));
+    let index = (this.lastGame+1)%2;
+    //let index = floor(random(0,2));
     console.log("moveToNextGame " + index);
     this.setNextGameByIndex(index);
+    this.lastGame = index;
   }
   setNextGameByIndex(index){
 
@@ -38,6 +38,18 @@ class Game{
 }
 let game = new Game;
 
+function preload(){
+  Game.onPreload();
+  SampleScene.onPreload();
+  MainMenu.onPreload();
+  Language.onPreload();
+  Introduction.onPreload();
+  PracticeMenu.onPreload();
+  Cooking.onPreload();
+  Driving.onPreload();
+  Convo.onPreload();
+  Ending.onPreload();
+}
 
 function setup() {
   createCanvas(1920, 1080);
@@ -48,11 +60,13 @@ function setup() {
   //Engine.setScene(new TestScene());
   //PositionTimeline
   //Engine.setScene(new MainMenu());
-    //Engine.setScene(new Driving());
-    //Engine.setScene(new Cooking());
-    //Engine.setScene(new Convo());
+  //Engine.setScene(new Driving());
+  //Engine.setScene(new Cooking());
+  //Engine.setScene(new Convo());
 
-  //game.setNextGameByIndex(1);
+  //game.setNextGameByIndex(0);
+  game.moveToNextGame();
+  //Engine.setScene(new MainMenu());
   Engine.setScene(new Introduction());
 }
 

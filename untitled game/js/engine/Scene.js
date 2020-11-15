@@ -14,6 +14,7 @@ class Scene extends BaseObject{
     go.scene = this;
     this.rootGameObjects.push(go);
     //this.gameObjects.push(go);
+    go.updateTransform();
   }
   removeGameObject(go){
     let index = this.rootGameObjects.indezOf(go);
