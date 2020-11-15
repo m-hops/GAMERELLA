@@ -27,7 +27,7 @@ class Language extends Scene{
     // SceneUtil.addImage(this, "", Language.french, 1020,670,1);
     // SceneUtil.addImage(this, "", Language.english, 220,670,1);
 
-    SceneUtil.addSFX(this, "", Language.languageIntro, true);
+    // SceneUtil.addSFX(this, "", Language.languageIntro, true);
 
     this.englishBTN = new GameObject(null, "");
     this.englishBTN.setPosition(-800, 670,2);
@@ -51,6 +51,10 @@ class Language extends Scene{
     this.title.setPosition(-1200, 160,2);
     this.title.addComponent(new RectangleCollision('test',0,0,671,242,2));
     this.title.addComponent(new ImageRenderComponent("", Language.title));
+    let intoTimeline = this.title.addComponent(new EventTimeline());
+    intoTimeline.addEvent( new EventSFX(0, Language.languageIntro));
+
+    intoTimeline.start();
 
     let frenchBTNOutroPosTimeline = this.frenchBTN.addComponent(new PositionTimeline());
     frenchBTNOutroPosTimeline.addKey(3200, 1020,670,1);
