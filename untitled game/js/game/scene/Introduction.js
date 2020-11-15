@@ -150,11 +150,22 @@ class Introduction extends Scene{
     text4PosTimeline.start();
 
     let eventTimeline = this.masterIntro.addComponent(new EventTimeline());
-    eventTimeline.addEvent(new EventChangeScene(42464, new PracticeMenu()));
+    eventTimeline.addEvent(new EventChangeScene(42464, new GameStart(Game.instance)));
     eventTimeline.start();
 
     this.addGameObject(this.masterIntro);
 
+
+
+    this.skipButton = new GameObject(null, "SkipButton");
+    this.skipButton.setPosition(800,800);
+    this.skipButton.addComponent(new RectangleCollision("rect", 0,0, 200, 100));
+    this.skipButton.addComponent(new ActivateTimelinesOnClick());
+    let skipButtonTimeline = this.skipButton.addComponent(new EventTimeline());
+    //skipButtonTimeline.addEvent( new EventSFX(0, SampleScene.testSFX2));
+    skipButtonTimeline.addEvent( new EventChangeScene(0, new GameStart(Game.instance)));
+    this.addGameObject(this.skipButton);
+    Game.instance.reset();
   }
 
   onUpdate(){

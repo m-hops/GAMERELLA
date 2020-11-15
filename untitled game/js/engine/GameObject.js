@@ -83,7 +83,7 @@ class GameObject extends BaseObject{
     if(lookInChildren){
       for(let i = 0; i != this.transform.children.length; ++i){
         if(!onlyEnabled || this.transform.children[i].owner.enabled){
-          result = this.transform.children[i].owner.getFirstComponentAndChildByName(name, onlyEnabled);
+          let result = this.transform.children[i].owner.getFirstComponentByName(name, onlyEnabled, lookInChildren);
           if(result != null) return result;
         }
       }

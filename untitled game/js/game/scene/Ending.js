@@ -35,6 +35,15 @@ class Ending extends Scene{
     // myTextObject.setScale(10,10);
 
     SceneUtil.addSFX(this, "", MainMenu.theme, true);
+
+        this.tryAgainButton = new GameObject(null, "TryAgainButton");
+        this.tryAgainButton.setPosition(800,800);
+        this.tryAgainButton.addComponent(new RectangleCollision("rect", 0,0, 200, 100));
+        this.tryAgainButton.addComponent(new ActivateTimelinesOnClick());
+        let skipButtonTimeline = this.tryAgainButton.addComponent(new EventTimeline());
+        //skipButtonTimeline.addEvent( new EventSFX(0, SampleScene.testSFX2));
+        skipButtonTimeline.addEvent( new EventChangeScene(0, new Introduction()));
+        this.addGameObject(this.tryAgainButton);
   }
 
   onUpdate(){

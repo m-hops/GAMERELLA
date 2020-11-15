@@ -9,12 +9,20 @@ function getMouseVector(){
 class Game{
   static ImgSuccess;
   static ImgFail;
+  static instance;
   static onPreload(){
 
     Game.ImgFail = loadImage('assets/images/generalAssets/FAILURE.png');
     Game.ImgSuccess = loadImage('assets/images/generalAssets/GOOD.png');
   }
   constructor(){
+    this.lastGame = -1;
+    this.cookingIteration = 0;
+    this.convoIteration = 0;
+    this.gameCount=0;
+    Game.instance = this;
+  }
+  reset(){
     this.lastGame = -1;
     this.cookingIteration = 0;
     this.convoIteration = 0;
@@ -67,6 +75,11 @@ function setup() {
   background(0);
 
   Engine.init();
+
+  //Engine.setScene(new Ending());
+  //game.cookingIteration = 0;
+  //game.moveToNextGame();
+
   //Engine.setScene(new SampleScene());
   //Engine.setScene(new TestScene());
   //PositionTimeline
@@ -76,9 +89,8 @@ function setup() {
   //Engine.setScene(new Convo());
 
   //game.setNextGameByIndex(0);
-  game.moveToNextGame();
   //Engine.setScene(new MainMenu());
-  //Engine.setScene(new Introduction());
+  Engine.setScene(new Introduction());
 }
 
 function draw() {
@@ -144,6 +156,37 @@ class StateMachineComponent extends GameObjectComponent{
     }
 }
 
+class ShakeComponent extends GameObjectComponent{
+
+  constructor(name, speed, radius){
+    super(name);
+    this.target = new p5.Vector(0,0,0);
+    this.current = new p5.Vector(0,0,0);
+    this.speed = speed;
+    this.radius = 50;
+    this.selectNewTarget();
+  }
+  selectNewTarget(){
+
+    let angle = random(0,2*PI);
+    let radius = random(this.radius*0.2, this.radius);
+    this.target = p5.Vector.fromAngle(angle, radius);
+
+  }
+  run(){
+    let diff = p5.Vector.sub(this.target, this.current);
+    let l = diff.mag();
+    let moveDist = this.speed*deltaTime/1000;
+    if(moveDist >= l){
+      //reach target
+      this.selectNewTarget();
+    }
+    diff.setMag(moveDist);
+    this.current.add(diff);
+    this.owner.transform.local.moveByVector(this.current);
+
+  }
+}
 class AttachToMouse extends GameObjectComponent{
 
   constructor(name, x,y){
