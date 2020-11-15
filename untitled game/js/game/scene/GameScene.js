@@ -8,12 +8,17 @@ class GameScene extends Scene{
     super();
     this.game = game;
   }
+  static onPreload(){
+
+    GameScene.successSFX = loadSound('assets/sounds/voiceOver/General/success.mp3');
+    GameScene.failureSFX = loadSound('assets/sounds/voiceOver/General/failure.mp3');
+  }
   onSetup(){
 
 
 
     this.timerObject = new CountdownTimerObject();
-    this.timerObject.setPosition(800,150,5);
+    this.timerObject.setPosition(width*0.5-30,150,5);
     this.addGameObject(this.timerObject);
 
     this.resultMsgObject = new ResultMsgObject(this, this.onEndMessageOver);
@@ -36,14 +41,17 @@ class GameScene extends Scene{
         // timer is over
         if(this.isWinningCondition()){
           this.resultMsgObject.setSuccess();
+          GameScene.successSFX.play();
         } else {
           this.resultMsgObject.setFail();
+          GameScene.failureSFX.play();
         }
       } else if(this.timerObject.enabled && this.isWinningCondition()){
         // we have a winning condition
         // timer is not over and still counting down
         this.timerObject.stopTimer();
         this.resultMsgObject.setSuccess();
+        GameScene.successSFX.play();
       }
     }
 

@@ -69,6 +69,7 @@ class CookingArm extends GameObjectComponent{
   }
   drop(){
     if(this.holdingObject == null) return;
+    Cooking.meatSFX.play();
     let attachComp = this.holdingObject.owner.getFirstComponentByName("attach");
     if(attachComp == null){
       console.log("holding object must have a attach component");
@@ -132,6 +133,7 @@ class CookingArm extends GameObjectComponent{
     let offset = p5.Vector.sub(paddy.getPosition(), this.getPosition());
     let dist = offset.mag();
     if(dist < Cooking.PaddyRadius){
+      Cooking.meatSFX.play();
       paddy.owner.addComponent(new AttachToObject("attach", this.owner, new p5.Vector(offset.x,offset.y,1)));
       if(paddy.cooking){
         paddy.cookStop();
@@ -164,7 +166,7 @@ class Cooking extends GameScene{
   static RawPosition = new p5.Vector(1450,450,1);
   static CookPosition = new p5.Vector(50,250,1);
   static CookRadius = 200;
-  static BunRadius = 200;
+  static BunRadius = 120;
   static PaddyRadius = 200;
   static CatZoneRadius = 300;
 
@@ -180,6 +182,7 @@ class Cooking extends GameScene{
   static catMeow;
   static sizzle;
   static onFire;
+  static meatSFX;
   static onPreload(){
     Cooking.background = loadImage('assets/images/cooking/BKG.png');
     Cooking.border = loadImage('assets/images/cooking/border.png');
@@ -193,6 +196,8 @@ class Cooking extends GameScene{
     Cooking.catMeow = loadSound('assets/sounds/sfx/cooking/meow.mp3');
     Cooking.sizzle = loadSound('assets/sounds/sfx/cooking/sizzle.mp3');
     Cooking.onFire = loadSound('assets/sounds/sfx/cooking/onFire.mp3');
+    Cooking.meatSFX = loadSound('assets/sounds/sfx/cooking/meat.mp3');
+
   }
 
   constructor(game){
@@ -219,7 +224,7 @@ class Cooking extends GameScene{
     this.arm.addComponent(new ImageRenderComponent("Img", Cooking.arm));
     this.arm.addComponent(new InteractiveComponent("Arm interactable", this.armComp, this.armComp.onClick));
     this.arm.addComponent(new AttachToMouse("attach", -200,-400));
-    
+
     if(this.game.cookingIteration >= 3){
       // you're on fire! literally ._.
       this.armFire = new GameObject(null, "ArmFire");
@@ -227,7 +232,7 @@ class Cooking extends GameScene{
       this.armFire.addComponent(new ImageRenderComponent("Img", Cooking.fire));
       this.armFire.addComponent(new SFXComponent("Img", Cooking.onFire));
       this.arm.addChild(this.armFire);
-      this.arm.addComponent(new ShakeComponent("shake", 500, 50));
+      this.arm.addComponent(new ShakeComponent("shake", 800, 150));
     }
 
     this.addGameObject(this.arm);

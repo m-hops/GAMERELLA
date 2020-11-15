@@ -58,6 +58,7 @@ class Game{
 let game = new Game;
 
 function preload(){
+  GameScene.onPreload();
   Game.onPreload();
   SampleScene.onPreload();
   MainMenu.onPreload();
@@ -94,7 +95,10 @@ function setup() {
   //game.setNextGameByIndex(0);
   // game.moveToNextGame();
   //Engine.setScene(new MainMenu());
-  Engine.setScene(new Creepy());
+  Engine.setScene(new Introduction());
+
+  //game.cookingIteration = 2;
+  //game.setNextGameByIndex(0);
 }
 
 function draw() {
