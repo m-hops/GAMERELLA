@@ -41,8 +41,9 @@ let game = new Game;
 function setup() {
   createCanvas(1920, 1080);
   background(0);
+
   Engine.init();
-  Engine.setScene(new SampleScene());
+  //Engine.setScene(new SampleScene());
   //Engine.setScene(new TestScene());
   //PositionTimeline
   //Engine.setScene(new MainMenu());
@@ -51,6 +52,7 @@ function setup() {
     //Engine.setScene(new Convo());
 
   //game.setNextGameByIndex(1);
+  Engine.setScene(new MainMenu());
 }
 
 function draw() {

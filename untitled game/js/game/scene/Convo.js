@@ -13,6 +13,8 @@ class Convo extends Scene{
   static bs1;
   static bs2;
   static bs3;
+  static ant1;
+  static ant2;
 
   static onPreload(){
     Convo.background = loadImage('assets/images/convo/BKG.png');
@@ -21,13 +23,12 @@ class Convo extends Scene{
     Convo.hOpen = loadImage('assets/images/convo/handOpen.png');
     Convo.player = loadImage('assets/images/convo/player.png');
 
-    Convo.ss1 = loadImage('assets/images/convo/smallSweat/smallSweat1.png');
-    Convo.ss2 = loadImage('assets/images/convo/smallSweat/smallSweat2.png');
-    Convo.ss3 = loadImage('assets/images/convo/smallSweat/smallSweat3.png');
+    Convo.ant1 = loadImage('assets/images/convo/ant1.png');
+    Convo.ant2 = loadImage('assets/images/convo/ant2.png');
 
+    Convo.ss1 = loadImage('assets/images/convo/smallSweat/smallSweat1.png');
     Convo.bs1 = loadImage('assets/images/convo/bigSweat/bigSweat1.png');
-    Convo.bs2 = loadImage('assets/images/convo/bigSweat/bigSweat2.png');
-    Convo.bs3 = loadImage('assets/images/convo/bigSweat/bigSweat3.png');
+
   }
 
   constructor(callbackObj, callbackFunc){
@@ -42,10 +43,6 @@ class Convo extends Scene{
     // z at -1 will draw bellow
     SceneUtil.addImage(this, 'background', Convo.background, 0,0,-2);
 
-    // SceneUtil.addImage(this, 'hOpen', Convo.hOpen, 1000,0,0,410,1000);
-    // SceneUtil.addImage(this, 'hClosed', Convo.hClosed,600,0,0,350,1000);
-
-    //SceneUtil.addImage(this, 'player', Convo.player, 0,0,1);
     SceneUtil.addImage(this, 'border', Convo.border,0,0,2);
 
     // let myTextObject = SceneUtil.addText(this, "Allo Allo", color(0, 0, 255), 'arial', 175,200, 2, 500, 200); // z at -1 will draw bellow

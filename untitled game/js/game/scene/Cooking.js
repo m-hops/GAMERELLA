@@ -120,6 +120,8 @@ class Cooking extends Scene{
   static bun;
   static pCooked;
   static pRaw;
+  static paw;
+  static fire;
 
   static onPreload(){
     Cooking.background = loadImage('assets/images/cooking/BKG.png');
@@ -128,6 +130,8 @@ class Cooking extends Scene{
     Cooking.bun = loadImage('assets/images/cooking/bun.png');
     Cooking.pCooked = loadImage('assets/images/cooking/pattyCooked.png');
     Cooking.pRaw = loadImage('assets/images/cooking/pattyRaw.png');
+    Cooking.paw = loadImage('assets/images/cooking/paw.png');
+    Cooking.fire = loadImage('assets/images/cooking/fire.png');
 
   }
 

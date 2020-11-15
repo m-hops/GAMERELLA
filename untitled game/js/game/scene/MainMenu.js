@@ -2,10 +2,12 @@ class MainMenu extends Scene{
   static background;
   static title;
   static start;
+  static govLogo;
   static onPreload(){
     MainMenu.background = loadImage('assets/images/1. start/startSplash.png');
     MainMenu.title = loadImage('assets/images/1. start/title.png');
     MainMenu.start = loadImage('assets/images/1. start/startBtn.png');
+    MainMenu.govLogo = loadImage('assets/images/1. start/govCanLogo.png');
 
   }
 
@@ -20,7 +22,7 @@ class MainMenu extends Scene{
     SceneUtil.addImage(this, "", MainMenu.background, 0,0,0);
     SceneUtil.addImage(this, "", MainMenu.title, 80,160,1);
     SceneUtil.addImage(this, "", MainMenu.start, 1300,900,1);
-
+    SceneUtil.addImage(this, "", MainMenu.govLogo, 200,950,1);
 
     // let myTextObject = SceneUtil.addText(this, "Allo Allo", color(0, 0, 255), 'arial', 175,200, 2, 500, 200); // z at -1 will draw bellow
     // myTextObject.setScale(10,10);
