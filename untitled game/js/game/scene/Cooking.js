@@ -56,7 +56,7 @@ class CookingArm extends GameObjectComponent{
     super("CookingArm");
   }
   onTryDrop(paddy, attachComp){
-    let cookingZone = this.getScene().getFirstGameObjectComponentByName("CookingZone");
+    let cookingZone = this.getScene().getFirstGameObjectComponentByName("CookingZone", true, true);
 
     let offset = p5.Vector.sub(cookingZone.getPosition(), paddy.getPosition());
     let dist = offset.mag();
@@ -86,7 +86,7 @@ class CookingArm extends GameObjectComponent{
     }
   }
   onClick(){
-    let paddy = this.getScene().getFirstGameObjectComponentByName("CookingPaddy");
+    let paddy = this.getScene().getFirstGameObjectComponentByName("CookingPaddy", true, true);
     if(paddy != null){
       console.log("CookingArm.onClick paddy");
       let attach = paddy.owner.getFirstComponentByName("attach");
@@ -131,8 +131,10 @@ class Cooking extends Scene{
 
   }
 
-  constructor(){
+  constructor(callbackObj=null, callbackFunc=null){
     super();
+    this.callbackObj = callbackObj;
+    this.callbackFunc = callbackFunc;
   }
   onSetup(){
 
@@ -142,14 +144,14 @@ class Cooking extends Scene{
     this.paddy = new GameObject(null, "Paddy");
     this.paddy.setPositionVector(Cooking.RawPosition);
     let paddyComp = this.paddy.addComponent(new CookingPaddy());
-    this.paddy.addComponent(new ImageRenderComponent("raw", Cooking.pRaw,0,0));
-    this.paddy.addComponent(new ImageRenderComponent("cooked", Cooking.pCooked,0,0));
+    this.paddy.addComponent(new ImageRenderComponent("raw", Cooking.pRaw));
+    this.paddy.addComponent(new ImageRenderComponent("cooked", Cooking.pCooked));
     paddyComp.setRaw();
     this.addGameObject(this.paddy);
 
     this.arm = new GameObject(null, "Arm");
     let armComp = this.arm.addComponent(new CookingArm());
-    this.arm.addComponent(new ImageRenderComponent("Img", Cooking.arm,0,0));
+    this.arm.addComponent(new ImageRenderComponent("Img", Cooking.arm));
     this.arm.addComponent(new InteractiveComponent("Arm interactable", armComp, armComp.onClick));
     this.arm.addComponent(new AttachToMouse("attach", -200,-400));
     this.addGameObject(this.arm);
@@ -178,7 +180,7 @@ class Cooking extends Scene{
     this.timerObject.setPosition(800,150,5);
     this.addGameObject(this.timerObject);
 
-    this.resultMsgObject = new ResultMsgObject();
+    this.resultMsgObject = new ResultMsgObject(this.callbackObj, this.callbackFunc);
     this.resultMsgObject.nextScene = new Driving();
     this.addGameObject(this.resultMsgObject);
     // this.timerObject = new GameObject(null, "Timer");

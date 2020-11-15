@@ -2,10 +2,12 @@
 
 class ImageRenderComponent extends RenderComponent{
 
-  constructor(name, img, w=null, h=null){
+  constructor(name, img, x=0,y=0,w=null, h=null){
     super(name);
     this.w = w;
     this.h = h;
+    this.x = x;
+    this.y = y;
     this.img = img;
   }
   draw(renderer){
@@ -18,9 +20,9 @@ class ImageRenderComponent extends RenderComponent{
       //rect(this.transform.world.position.x - 10, this.transform.world.position.y - 10, 20, 20)
       //rect(0, 0, this.w, this.h);
       if(this.w != null){
-        image(this.img, 0, 0, this.w, this.h);
+        image(this.img, this.x, this.y, this.w, this.h);
       } else {
-        image(this.img, 0, 0);
+        image(this.img, this.x, this.y);
       }
       pop();
     }

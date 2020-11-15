@@ -46,17 +46,38 @@ class Scene extends BaseObject{
     }
     return null;
   }
-  getFirstGameObjectComponentByName(name, onlyActive=false){
+  getAllGameObjectByName(name, onlyActive=false, lookInChildren=true){
+    let result = [];
     for(let i = 0; i != this.rootGameObjects.length; ++i){
-      let result = this.rootGameObjects[i].getFirstComponentAndChildByName(name, onlyActive);
+      let resultInRoot = this.rootGameObjects[i].getAllGameObjectByName(name, onlyActive, lookInChildren);
+      if(resultInRoot.length > 0){
+        result = result.concat(resultInRoot);
+      }
+    }
+    return result;
+  }
+  getFirstGameObjectComponentByName(name, onlyActive=false, lookInChildren=true){
+    for(let i = 0; i != this.rootGameObjects.length; ++i){
+      let result = this.rootGameObjects[i].getFirstComponentByName(name, onlyActive, lookInChildren);
       if(result != null) return result;
     }
     return null;
   }
-  getAllComponentAndChildrenWithFlag(flag, onlyActive=false){
+  getAllGameObjectComponentByName(name, onlyActive=false, lookInChildren=true){
     let result = [];
     for(let i = 0; i != this.rootGameObjects.length; ++i){
-      let resultInRoot = this.rootGameObjects[i].getAllComponentAndChildrenWithFlag(flag, onlyActive);
+      let resultInRoot = this.rootGameObjects[i].getAllComponentByName(name, onlyActive, lookInChildren);
+      if(resultInRoot.length > 0){
+        result = result.concat(resultInRoot);
+      }
+    }
+    return result;
+  }
+
+  getAllComponentWithFlag(flag, onlyActive=false, lookInChildren=true){
+    let result = [];
+    for(let i = 0; i != this.rootGameObjects.length; ++i){
+      let resultInRoot = this.rootGameObjects[i].getAllComponentWithFlag(flag, onlyActive, lookInChildren);
       if(resultInRoot.length > 0){
         result = result.concat(resultInRoot);
       }

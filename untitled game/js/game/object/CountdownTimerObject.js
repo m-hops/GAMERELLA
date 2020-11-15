@@ -1,7 +1,7 @@
 class CountdownTimerComponent extends GameObjectComponent{
 
   constructor(){
-    super("CookingPaddy");
+    super("CountdownTimerComponent");
     this.time = 10000;
 
   }
@@ -38,6 +38,6 @@ class CountdownTimerObject extends GameObject{
     timerText.size = 64;
   }
   isOver(){
-    return this.timerComp.time < 0;
+    return this.timerComp.time <= 0;
   }
 }

@@ -11,7 +11,7 @@ class Renderer{
   render(){
     //console.log("Rendering " + this.objectsToDraw.length + " render components");
     // sort by z
-    this.objectsToDraw.sort(function(a, b){return a.getTransform().world.position.z - b.getTransform().world.position.z})
+    this.objectsToDraw.sort(function(a, b){return a.getTransform().world.position.z - b.getTransform().world.position.z});
 
     for(let i = 0; i != this.objectsToDraw.length; ++i){
       this.objectsToDraw[i].draw(this);

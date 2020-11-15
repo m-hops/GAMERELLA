@@ -1,4 +1,6 @@
 
+
+
 function getMouseVector(){
   return new p5.Vector(mouseX, mouseY, 0);
 }
@@ -14,16 +16,41 @@ function preload(){
   Convo.onPreload();
 }
 
+class Game{
+
+  moveToNextGame(){
+    let index = floor(random(0,2));
+    console.log("moveToNextGame " + index);
+    this.setNextGameByIndex(index);
+  }
+  setNextGameByIndex(index){
+
+    switch(index){
+      case 0:
+        Engine.setScene(new Cooking(this, this.moveToNextGame));
+        break;
+      case 1:
+        Engine.setScene(new Convo(this, this.moveToNextGame));
+        break;
+    }
+  }
+}
+let game = new Game;
+
 
 function setup() {
   createCanvas(1920, 1080);
   background(0);
   Engine.init();
-  //Engine.setScene(new SampleScene());
+  Engine.setScene(new SampleScene());
+  //Engine.setScene(new TestScene());
+  //PositionTimeline
   //Engine.setScene(new MainMenu());
     //Engine.setScene(new Driving());
-    Engine.setScene(new Cooking());
+    //Engine.setScene(new Cooking());
     //Engine.setScene(new Convo());
+
+  //game.setNextGameByIndex(1);
 }
 
 function draw() {
@@ -41,31 +68,12 @@ function draw() {
 
 function mouseClicked(event) {
   Engine.mouseClicked(event);
-  // let mouse = getMouseVector();
-  // if(Engine.currentScene != null){
-  //   let interactables = Engine.currentScene.getAllComponentAndChildrenWithFlag(InteractiveComponent.ID);
-  //   console.log("interactables count=" + interactables.length);
-  //   for(let i = 0;i != interactables.length; ++i){
-  //     let mouseLocal = interactables[i].owner.transform.world.inverseTransformVector(mouse);
-  //     let colliders = interactables[i].owner.getAllComponentWithFlag(CollisionComponent.ID);
-  //     if(colliders.length == 0){
-  //       console.log("click on " + interactables[i].name);
-  //       if(interactables[i].processMouseClick(mouseLocal, mouse, event)){
-  //         return;
-  //       }
-  //     } else {
-  //       for(let iColl = 0;iColl != interactables.length; ++iColl){
-  //         if(colliders[iColl].isLocalPointIn(mouseLocal)){
-  //           if(interactables[i].processMouseClick(mouseLocal, mouse, event)){
-  //             return;
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  //   //let objs = Engine.currentScene.getAllObjectsCollidingAt(getMouseVector());
-  //   //InteractiveComponent
-  // }
+}
+function mousePressed(event) {
+  Engine.mousePressed(event);
+}
+function mouseReleased(event) {
+  Engine.mouseReleased(event);
 }
 class State{
 

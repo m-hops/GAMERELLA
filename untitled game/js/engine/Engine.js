@@ -1,6 +1,6 @@
 
 class Engine{
-  static DebugDrawOn = false;
+  static DebugDrawOn = true;
   static currentScene=null;
   static nextScene=null;
   static renderer=null;
@@ -21,6 +21,7 @@ class Engine{
       }
       Engine.currentScene = Engine.nextScene;
       Engine.currentScene.onSetup();
+      console.log(Engine.currentScene);
       Engine.currentScene.start();
       Engine.nextScene = null;
     }
@@ -42,23 +43,51 @@ class Engine{
 
 
 
-  static mouseClicked(event) {
+  // static mouseClicked(event) {
+  //   let mouse = getMouseVector();
+  //   if(Engine.currentScene != null){
+  //     let interactables = Engine.currentScene.getAllComponentAndChildrenWithFlag(InteractiveComponent.ID);
+  //     console.log("interactables count=" + interactables.length);
+  //     for(let i = 0;i != interactables.length; ++i){
+  //       let mouseLocal = interactables[i].owner.transform.world.inverseTransformVector(mouse);
+  //       let colliders = interactables[i].owner.getAllComponentWithFlag(CollisionComponent.ID);
+  //       if(colliders.length == 0){
+  //         console.log("click on " + interactables[i].name);
+  //         if(interactables[i].processMouseClick(mouseLocal, mouse, event)){
+  //           return;
+  //         }
+  //       } else {
+  //         for(let iColl = 0;iColl != interactables.length; ++iColl){
+  //           if(colliders[iColl].isLocalPointIn(mouseLocal)){
+  //             if(interactables[i].processMouseClick(mouseLocal, mouse, event)){
+  //               return;
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //     //let objs = Engine.currentScene.getAllObjectsCollidingAt(getMouseVector());
+  //     //InteractiveComponent
+  //   }
+  // }
+  static mouseEvent(event, func) {
     let mouse = getMouseVector();
     if(Engine.currentScene != null){
-      let interactables = Engine.currentScene.getAllComponentAndChildrenWithFlag(InteractiveComponent.ID);
-      console.log("interactables count=" + interactables.length);
+      let interactables = Engine.currentScene.getAllComponentWithFlag(InteractiveComponent.ID, true, true);
+      //console.log("interactables count=" + interactables.length);
       for(let i = 0;i != interactables.length; ++i){
         let mouseLocal = interactables[i].owner.transform.world.inverseTransformVector(mouse);
-        let colliders = interactables[i].owner.getAllComponentWithFlag(CollisionComponent.ID);
+        let colliders = interactables[i].owner.getAllComponentWithFlag(CollisionComponent.ID,true, true);
         if(colliders.length == 0){
           console.log("click on " + interactables[i].name);
-          if(interactables[i].processMouseClick(mouseLocal, mouse, event)){
+          if(func(interactables[i], mouseLocal, mouse, event)){
             return;
           }
         } else {
-          for(let iColl = 0;iColl != interactables.length; ++iColl){
+          //console.log(colliders);
+          for(let iColl = 0;iColl != colliders.length; ++iColl){
             if(colliders[iColl].isLocalPointIn(mouseLocal)){
-              if(interactables[i].processMouseClick(mouseLocal, mouse, event)){
+              if(func(interactables[i], mouseLocal, mouse, event)){
                 return;
               }
             }
@@ -68,5 +97,21 @@ class Engine{
       //let objs = Engine.currentScene.getAllObjectsCollidingAt(getMouseVector());
       //InteractiveComponent
     }
+  }
+
+  static mouseClicked(event) {
+    Engine.mouseEvent(event, function(interactable, mouseLocal, mouse, event){
+      return interactable.processMouseClick(mouseLocal, mouse, event);
+    });
+  }
+  static mousePressed(event) {
+    Engine.mouseEvent(event, function(interactable, mouseLocal, mouse, event){
+      return interactable.processMousePressed(mouseLocal, mouse, event);
+    });
+  }
+  static mouseReleased(event) {
+    Engine.mouseEvent(event, function(interactable, mouseLocal, mouse, event){
+      return interactable.processMouseReleased(mouseLocal, mouse, event);
+    });
   }
 }

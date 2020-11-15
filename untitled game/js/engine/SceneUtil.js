@@ -5,7 +5,7 @@ class SceneUtil{
     go.transform.local.setPosition(x,y,z);
     go.transform.local.setScale(1,1);
     go.transform.local.rotation = 0;
-    let imgComp = new ImageRenderComponent(name, img, w,h);
+    let imgComp = new ImageRenderComponent(name, img,0,0, w,h);
     go.addComponent(imgComp);
 
     scene.addGameObject(go);

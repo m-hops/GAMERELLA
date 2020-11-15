@@ -51,6 +51,35 @@ class TestScene extends Scene{
     this.goTestSFX.addComponent(new SFXComponent(null, TestScene.testSFX));
     this.addGameObject(this.goTestSFX);
 
+    this.testTimeline = new GameObject(null,"testTimeline");
+    let posTimeline = this.testTimeline.addComponent(new PositionTimeline());
+    posTimeline.addKey(500, 200,0,2);
+    posTimeline.addKey(1000, 300,0,2);
+    posTimeline.addKey(10000, 200,500,2);
+    posTimeline.start();
+    let rotTimeline = this.testTimeline.addComponent(new RotationTimeline());
+    rotTimeline.addKeyDegree(0, 0);
+    rotTimeline.addKeyDegree(1000, 270);
+    rotTimeline.addKeyDegree(10000, 5);
+    rotTimeline.start();
+    let scaleTimeline = this.testTimeline.addComponent(new ScaleTimeline());
+    scaleTimeline.addKey(0, 1,1,1);
+    scaleTimeline.addKey(1000, 2,2,1);
+    scaleTimeline.addKey(10000, 10,1,1);
+    scaleTimeline.start();
+    this.addGameObject(this.testTimeline);
+
+
+    this.testTimelineButton = new GameObject(null,"testTimelineButton");
+    this.testTimelineButton.transform.local.setPosition(500,500, 2);
+    this.testTimelineButton.addComponent(new RectangleCollision(null, -25,-25,100,100));
+    this.testTimelineButton.addComponent(new ActivateTimelinesOnClick());
+    let eventTimeline = this.testTimelineButton.addComponent(new EventTimeline());
+    eventTimeline.addEvent( new EventChangeScene(1000, new SampleScene()));
+    let posTimelineButton = this.testTimelineButton.addComponent(new PositionTimeline());
+    posTimelineButton.addKey(0, 500,500,2);
+    posTimelineButton.addKey(1000, 1000,500,2);
+    this.addGameObject(this.testTimelineButton);
 
   }
   onButtonClick(posLocal, posWorld, event){

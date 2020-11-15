@@ -31,57 +31,81 @@ class GameObject extends BaseObject{
     }
   }
 
-  getFirstComponentByName(name, onlyEnabled=false){
+  addChild(go){
+    this.transform.addChild(go.transform);
+    return go;
+  }
+  removeChild(go){
+    this.transform.removeChild(go.transform);
+    return go;
+  }
+
+  // getFirstComponentByName(name, onlyEnabled=false){
+  //   if(onlyEnabled && !this.enabled) return null;
+  //   for(let i = 0; i != this.components.length; ++i){
+  //     if( (!onlyEnabled || this.components[i].enabled)
+  //         && this.components[i].name == name){
+  //       return this.components[i];
+  //     }
+  //   }
+  //   return null;
+  // }
+
+  getAllGameObjectByName(name, onlyEnabled=false, lookInChildren=true){
+    let result = [];
+    if(onlyEnabled && !this.enabled) return result;
+
+    if(this.name == name){
+      result.push(this);
+    }
+
+    if(lookInChildren){
+      for(let i = 0; i != this.transform.children.length; ++i){
+        let resultInChild = this.transform.children[i].owner.getAllGameObjectByName(name, onlyEnabled, lookInChildren);
+        if(resultInChild.length > 0){
+          result = result.concat(resultInChild);
+        }
+      }
+    }
+    return result;
+  }
+
+  getFirstComponentByName(name, onlyEnabled=false, lookInChildren=true){
     if(onlyEnabled && !this.enabled) return null;
+
     for(let i = 0; i != this.components.length; ++i){
       if( (!onlyEnabled || this.components[i].enabled)
           && this.components[i].name == name){
         return this.components[i];
       }
     }
-    return null;
-  }
-  getFirstComponentAndChildByName(name, onlyEnabled=false){
-    if(onlyEnabled && !this.enabled) return null;
-    let result = this.getFirstComponentByName(name, onlyEnabled);
-    if(result != null) return result;
-
     // check in children
-    for(let i = 0; i != this.transform.children.length; ++i){
-      if(!onlyEnabled || this.transform.children[i].owner.enabled){
-        result = this.transform.children[i].owner.getFirstComponentAndChildByName(name, onlyEnabled);
-        if(result != null) return result;
-      }
-    }
-
-    return null;
-  }
-  getFirstComponentWithFlag(flag){
-    for(let i = 0; i != this.components.length; ++i){
-      if(this.components[i].is(flag)){
-        return this.components[i];
-      }
-    }
-    return null;
-  }
-  getAllComponentWithFlag(flag){
-    let result=[];
-    for(let i = 0; i != this.components.length; ++i){
-      if(this.components[i].is(flag)){
-        result.push(this.components[i]);
-      }
-    }
-    return result;
-  }
-
-  getAllComponentAndChildrenWithFlag(flag, onlyActive=false){
-    if(!onlyActive || this.enabled){
-      let result=this.getAllComponentWithFlag(flag);
+    if(lookInChildren){
       for(let i = 0; i != this.transform.children.length; ++i){
-        if(!onlyActive || this.transform.children[i].owner.enabled){
-          let resultChildren = this.transform.children[i].owner.getAllComponentAndChildrenWithFlag(flag, onlyActive);
-          if(resultChildren.length > 0){
-            result = result.concat(resultChildren);
+        if(!onlyEnabled || this.transform.children[i].owner.enabled){
+          result = this.transform.children[i].owner.getFirstComponentAndChildByName(name, onlyEnabled);
+          if(result != null) return result;
+        }
+      }
+    }
+
+    return null;
+  }
+  getAllComponentByName(name, onlyActive=false, lookInChildren=true){
+    if(!onlyActive || this.enabled){
+      let result=[];
+      for(let i = 0; i != this.components.length; ++i){
+        if(this.components[i].name == name){
+          result.push(this.components[i]);
+        }
+      }
+      if(lookInChildren){
+        for(let i = 0; i != this.transform.children.length; ++i){
+          if(!onlyActive || this.transform.children[i].owner.enabled){
+            let resultChildren = this.transform.children[i].owner.getAllComponentByName(name, onlyActive, lookInChildren);
+            if(resultChildren.length > 0){
+              result = result.concat(resultChildren);
+            }
           }
         }
       }
@@ -90,12 +114,75 @@ class GameObject extends BaseObject{
     return [];
   }
 
+
+  getFirstComponentWithFlag(flag){
+    for(let i = 0; i != this.components.length; ++i){
+      if(this.components[i].is(flag)){
+        return this.components[i];
+      }
+    }
+    return null;
+  }
+
+  // getAllComponentWithFlag(flag){
+  //   let result=[];
+  //   for(let i = 0; i != this.components.length; ++i){
+  //     if(this.components[i].is(flag)){
+  //       result.push(this.components[i]);
+  //     }
+  //   }
+  //   return result;
+  // }
+
+  getAllComponentWithFlag(flag, onlyActive=false, lookInChildren=true){
+    if(!onlyActive || this.enabled){
+      let result=[];
+      for(let i = 0; i != this.components.length; ++i){
+        if(this.components[i].is(flag)){
+          result.push(this.components[i]);
+        }
+      }
+      if(lookInChildren){
+        for(let i = 0; i != this.transform.children.length; ++i){
+          if(!onlyActive || this.transform.children[i].owner.enabled){
+            let resultChildren = this.transform.children[i].owner.getAllComponentWithFlag(flag, onlyActive, lookInChildren);
+            if(resultChildren.length > 0){
+              result = result.concat(resultChildren);
+            }
+          }
+        }
+      }
+      return result;
+    }
+    return [];
+  }
+  // getAllComponentAndChildrenWithFlag(flag, onlyActive=false){
+  //   if(!onlyActive || this.enabled){
+  //     let result=this.getAllComponentWithFlag(flag);
+  //     for(let i = 0; i != this.transform.children.length; ++i){
+  //       if(!onlyActive || this.transform.children[i].owner.enabled){
+  //         let resultChildren = this.transform.children[i].owner.getAllComponentAndChildrenWithFlag(flag, onlyActive);
+  //         if(resultChildren.length > 0){
+  //           result = result.concat(resultChildren);
+  //         }
+  //       }
+  //     }
+  //     return result;
+  //   }
+  //   return [];
+  // }
+
+  getTransform(){
+    return this.transform;
+  }
+
   setPositionVector(v){
     this.transform.local.position = v.copy();
   }
   setPosition(x,y,z=this.transform.local.position.z){
     this.transform.local.position.x = x;
     this.transform.local.position.y = y;
+    this.transform.local.position.z = z;
   }
   getPosition(){
     return this.transform.world.position;
@@ -103,6 +190,12 @@ class GameObject extends BaseObject{
   setScale(x,y){
     this.transform.local.scale.x = x;
     this.transform.local.scale.y = y;
+  }
+  vectorTo(other){
+    return p5.Vector.sub(other.getTransform().world.position , this.getTransform().world.position);
+  }
+  distTo(other){
+    return p5.Vector.sub(other.getTransform().world.position , this.getTransform().world.position).mag();
   }
   start(){
     if(this.enabled){
@@ -167,6 +260,7 @@ class GameObject extends BaseObject{
         this.components[i].debugDraw(renderer);
       }
       for(let i = 0; i != this.transform.children.length; ++i){
+        //console.log("Debug Draw child");
         this.transform.children[i].owner.debugDraw(renderer);
       }
     }

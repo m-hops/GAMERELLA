@@ -5,16 +5,16 @@ class RectangleCollision extends CollisionComponent{
     super(name);
     this.aabb = new AABB(x+w/2,y+h/2,w/2,h/2);
   }
-  is(flag){
-    if(super.is(flag)) return true;
-    return flag === RenderComponent.ID;
-    return false;
-  }
+  // is(flag){
+  //   if(super.is(flag)) return true;
+  //   return flag === RenderComponent.ID;
+  //   return false;
+  // }
   isLocalPointIn(point){
     return this.aabb.isPointIn(point);
   }
 
-  draw(renderer){
+  debugDraw(renderer){
     //console.log("Draw RenderComponent");
     push();
     this.owner.transform.world.apply();

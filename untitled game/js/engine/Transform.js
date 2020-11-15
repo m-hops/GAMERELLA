@@ -68,7 +68,7 @@ class Transform{
     //  + "\n rotation=" + this.rotation);
     angleMode(RADIANS);
     translate(this.position);
-    scale(this.scale);
     rotate(this.rotation);
+    scale(this.scale);
   }
 }
