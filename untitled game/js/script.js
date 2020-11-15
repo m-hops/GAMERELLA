@@ -14,6 +14,7 @@ function preload(){
   Cooking.onPreload();
   Driving.onPreload();
   Convo.onPreload();
+  Ending.onPreload();
 }
 
 class Game{
@@ -52,7 +53,7 @@ function setup() {
     //Engine.setScene(new Convo());
 
   //game.setNextGameByIndex(1);
-  Engine.setScene(new MainMenu());
+  Engine.setScene(new Ending());
 }
 
 function draw() {
