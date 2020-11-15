@@ -10,6 +10,8 @@ class Convo extends Scene{
   static bs1;
   static bs2;
   static bs3;
+  static ant1;
+  static ant2;
 
   static onPreload(){
     Convo.background = loadImage('assets/images/convo/BKG.png');
@@ -17,6 +19,9 @@ class Convo extends Scene{
     Convo.hClosed = loadImage('assets/images/convo/handClosed.png');
     Convo.hOpen = loadImage('assets/images/convo/handOpen.png');
     Convo.player = loadImage('assets/images/convo/player.png');
+
+    Convo.ant1 = loadImage('assets/images/convo/ant1.png');
+    Convo.ant2 = loadImage('assets/images/convo/ant2.png');
 
     Convo.ss1 = loadImage('assets/images/convo/smallSweat/smallSweat1.png');
     Convo.ss2 = loadImage('assets/images/convo/smallSweat/smallSweat2.png');
