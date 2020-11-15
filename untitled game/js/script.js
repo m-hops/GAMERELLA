@@ -53,7 +53,7 @@ function setup() {
     //Engine.setScene(new Convo());
 
   //game.setNextGameByIndex(1);
-  Engine.setScene(new MainMenu());
+  Engine.setScene(new Introduction());
 }
 
 function draw() {

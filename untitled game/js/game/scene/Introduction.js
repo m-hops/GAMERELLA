@@ -9,10 +9,7 @@ class Introduction extends Scene{
   static slide3Txt;
   static slide4BKG;
   static slide4Txt;
-  static slide1Audio;
-  static slide2Audio;
-  static slide3Audio;
-  static slide4Audio;
+  static myAudio;
   static onPreload(){
     Introduction.border = loadImage('assets/images/3. intro/pageBorder.png');
     Introduction.bkgOverlay = loadImage('assets/images/3. intro/blueFadeOverlay.png');
@@ -26,10 +23,7 @@ class Introduction extends Scene{
     Introduction.slide4BKG = loadImage('assets/images/3. intro/slide4/BKG.png');
     Introduction.slide4Txt = loadImage('assets/images/3. intro/slide4/text.png');
 
-    Introduction.slide1Audio = loadSound('assets/sounds/voiceOver/3. Introduction/intro1.mp3');
-    Introduction.slide2Audio = loadSound('assets/sounds/voiceOver/3. Introduction/intro2.mp3');
-    Introduction.slide3Audio = loadSound('assets/sounds/voiceOver/3. Introduction/intro3.mp3');
-    Introduction.slide4Audio = loadSound('assets/sounds/voiceOver/3. Introduction/intro4.mp3');
+    Introduction.myAudio = loadSound('assets/sounds/voiceOver/3. Introduction/introAll.mp3');
 
   }
 
@@ -45,17 +39,98 @@ class Introduction extends Scene{
     // SceneUtil.addImage(this, "", Introduction.slide1BKG, 0,0,-1);
     // SceneUtil.addImage(this, "", Introduction.slide2BKG, 0,0,-1);
     // SceneUtil.addImage(this, "", Introduction.slide3BKG, 0,0,-1);
-    SceneUtil.addImage(this, "", Introduction.slide4BKG, 0,0,-1);
+    // SceneUtil.addImage(this, "", Introduction.slide4BKG, 0,0,-1);
     SceneUtil.addImage(this, "", Introduction.bkgOverlay, 0,0,0);
     // SceneUtil.addImage(this, "", Introduction.slide1Txt, 100,300,1);
     // SceneUtil.addImage(this, "", Introduction.slide2Txt, 100,350,1);
     // SceneUtil.addImage(this, "", Introduction.slide3Txt, 100,350,1);
-    SceneUtil.addImage(this, "", Introduction.slide4Txt, 100,400,1);
-    SceneUtil.addImage(this, "", Introduction.border, 0,0,2);
+    // SceneUtil.addImage(this, "", Introduction.slide4Txt, 100,400,1);
+    SceneUtil.addImage(this, "", Introduction.border, 0,0,5);
 
+    SceneUtil.addSFX(this, "", Introduction.myAudio, true);
 
-    // let myTextObject = SceneUtil.addText(this, "Allo Allo", color(0, 0, 255), 'arial', 175,200, 2, 500, 200); // z at -1 will draw bellow
-    // myTextObject.setScale(10,10);
+    this.slide1bkg = new GameObject(null, "");
+    this.slide1bkg.setPosition(0, 0, -4);
+    this.slide1bkg.addComponent(new ImageRenderComponent("", Introduction.slide1BKG));
+
+    this.slide2bkg = new GameObject(null, "");
+    this.slide2bkg.setPosition(0, 2000, -4);
+    this.slide2bkg.addComponent(new ImageRenderComponent("", Introduction.slide2BKG));
+
+    this.slide3bkg = new GameObject(null, "");
+    this.slide3bkg.setPosition(0, 2000, -4);
+    this.slide3bkg.addComponent(new ImageRenderComponent("", Introduction.slide3BKG));
+
+    this.slide4bkg = new GameObject(null, "");
+    this.slide4bkg.setPosition(0, 2000, -4);
+    this.slide4bkg.addComponent(new ImageRenderComponent("", Introduction.slide4BKG));
+
+    // this.text1 = new GameObject(null, "");
+    // this.text1.setPosition(100, 300, 1);
+    // this.text1.addComponent(new ImageRenderComponent("", Introduction.slide1Txt));
+    //
+    // this.text2 = new GameObject(null, "");
+    // this.text2.setPosition(100, 300, 1);
+    // this.text2.addComponent(new ImageRenderComponent("", Introduction.slide2Txt));
+    //
+    // this.text3 = new GameObject(null, "");
+    // this.text3.setPosition(100, 300, 1);
+    // this.text3.addComponent(new ImageRenderComponent("", Introduction.slide3Txt));
+    //
+    // this.text4 = new GameObject(null, "");
+    // this.text4.setPosition(100, 300, 1);
+    // this.text4.addComponent(new ImageRenderComponent("", Introduction.slide4Txt));
+
+    this.addGameObject(this.slide1bkg);
+    this.addGameObject(this.slide2bkg);
+    this.addGameObject(this.slide3bkg);
+    this.addGameObject(this.slide4bkg);
+
+    // this.addGameObject(this.text1);
+    // this.addGameObject(this.text2);
+    // this.addGameObject(this.text3);
+    // this.addGameObject(this.text4);
+
+    this.masterIntro = new GameObject(null,'');
+
+    let slide1bkgPosTimeline = this.masterIntro.addComponent(new PositionTimeline());
+    slide1bkgPosTimeline.targetObject = this.slide1bkg;
+    slide1bkgPosTimeline.addKey(0,0,0,-1);
+    slide1bkgPosTimeline.addKey(14028,-1200,0,-1);
+    slide1bkgPosTimeline.addKey(14029,-1200,2000,-4);
+    slide1bkgPosTimeline.start();
+
+    // let text1PosTimeline = this.masterIntro.addComponent(new PositionTimeline());
+    // text1PosTimeline.targetObject = this.text1;
+    // text1PosTimeline.addKey(0,100,300,1);
+    // text1PosTimeline.addKey(12028,200,300,1);
+    // text1PosTimeline.addKey(13028,200,200,1);
+    // text1PosTimeline.addKey(14028,200,1000,1);
+    // text1PosTimeline.start();
+
+    let slide2bkgPosTimeline = this.masterIntro.addComponent(new PositionTimeline());
+    slide2bkgPosTimeline.targetObject = this.slide2bkg;
+    slide2bkgPosTimeline.addKey(14029,0,0,-1);
+    slide2bkgPosTimeline.addKey(24790,0,0,-1);
+    slide2bkgPosTimeline.addKey(24791,0,2000,-4);
+    slide2bkgPosTimeline.start();
+
+    let slide3bkgPosTimeline = this.masterIntro.addComponent(new PositionTimeline());
+    slide3bkgPosTimeline.targetObject = this.slide3bkg;
+    slide3bkgPosTimeline.addKey(24790,0,0,-1);
+    slide3bkgPosTimeline.addKey(37218,0,0,-1);
+    slide3bkgPosTimeline.addKey(37219,0,2000,-4);
+    slide3bkgPosTimeline.start();
+
+    let slide4bkgPosTimeline = this.masterIntro.addComponent(new PositionTimeline());
+    slide4bkgPosTimeline.targetObject = this.slide4bkg;
+    slide4bkgPosTimeline.addKey(37218,0,0,-1);
+    slide4bkgPosTimeline.addKey(42634,0,0,-1);
+    slide4bkgPosTimeline.addKey(42634,0,2000,-4);
+    slide4bkgPosTimeline.start();
+
+    this.addGameObject(this.masterIntro);
+
   }
 
   onUpdate(){
