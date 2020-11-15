@@ -33,19 +33,19 @@ class Driving extends Scene{
     // z at -1 will draw bellow
 
     //STAGE1//
-    // SceneUtil.addImage(this, Driving.background1, 0,0,-2);
-    // SceneUtil.addImage(this, Driving.knob, 125,90,0);
-    // SceneUtil.addImage(this, Driving.hOpen, 0,0,0,600,1250);
-    // SceneUtil.addImage(this, Driving.hClosed, 0,0,0,420,1200);
+    // SceneUtil.addImage(this, 'backgroundStage1', Driving.background1, 0,0,-2);
+    // SceneUtil.addImage(this, 'knob', Driving.knob, 125,90,0);
+    // SceneUtil.addImage(this, 'handOpen', Driving.hOpen, 0,0,0,600,1250);
+    // SceneUtil.addImage(this, 'handClosed', Driving.hClosed, 0,0,0,420,1200);
 
     //STAGE2//
-    SceneUtil.addImage(this, Driving.road, 0,0,-2);
-    SceneUtil.addImage(this, Driving.ped1, 0,0,-1);
-    SceneUtil.addImage(this, Driving.ped2, 0,0,-1);
-    SceneUtil.addImage(this, Driving.hClosed, 900,450,1,350,1000);
-    SceneUtil.addImage(this, Driving.dash, 0,0,0);
+    SceneUtil.addImage(this, 'road', Driving.road, 0,0,-2);
+    SceneUtil.addImage(this, 'ped1', Driving.ped1, 0,0,-1);
+    SceneUtil.addImage(this, 'ped2', Driving.ped2, 0,0,-1);
+    SceneUtil.addImage(this, 'handClosed', Driving.hClosed, 900,450,1,350,1000);
+    SceneUtil.addImage(this, 'dashboard', Driving.dash, 0,0,0);
 
-    SceneUtil.addImage(this, Driving.border, 0,0,2);
+    SceneUtil.addImage(this, 'border', Driving.border, 0,0,2);
     // let myTextObject = SceneUtil.addText(this, "Allo Allo", color(0, 0, 255), 'arial', 175,200, 2, 500, 200); // z at -1 will draw bellow
     // myTextObject.setScale(10,10);
   }
