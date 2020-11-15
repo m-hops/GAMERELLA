@@ -35,10 +35,10 @@ class Ending extends Scene{
     // z at -1 will draw bellow
     // SceneUtil.addImage(this, "", Ending.background1, -250,0,-1);
     // SceneUtil.addImage(this, "", Ending.background2, -380,0,-1);
-    SceneUtil.addImage(this, "", Ending.overlay, 0,0,0);
+    SceneUtil.addImage(this, "", Ending.overlay, 0,0,-1);
     // SceneUtil.addImage(this, "", Ending.text1, 240,240,1);
-    SceneUtil.addImage(this, "", Ending.text2, 240,280,1);
-    SceneUtil.addImage(this, "", Ending.border,-50,0,2);
+    // SceneUtil.addImage(this, "", Ending.text2, 240,280,1);
+    // SceneUtil.addImage(this, "", Ending.border,-50,0,2);
 
     // let myTextObject = SceneUtil.addText(this, "Allo Allo", color(0, 0, 255), 'arial', 175,200, 2, 500, 200); // z at -1 will draw bellow
     // myTextObject.setScale(10,10);
@@ -48,26 +48,43 @@ class Ending extends Scene{
     this.bkg2 = new GameObject(null, "");
     this.bkg2.setPosition(-380, 0, -1);
     this.bkg2.addComponent(new ImageRenderComponent("", Ending.background2));
+    let goodbyeTimeline = this.bkg2.addComponent(new EventTimeline());
+    goodbyeTimeline.addEvent( new EventSFX(0, Ending.endVO));
+
+    goodbyeTimeline.start();
+
+    this.borderOverlay = new GameObject(null, "");
+    this.borderOverlay.setPosition(-50, 0, 5);
+    this.borderOverlay.addComponent(new ImageRenderComponent("", Ending.border));
 
     this.txt2 = new GameObject(null, "");
     this.txt2.setPosition(240, 280, -2);
     this.txt2.addComponent(new ImageRenderComponent("", Ending.text2));
 
     this.addGameObject(this.bkg2);
-    this.addGameObject(this.text2);
+    this.addGameObject(this.txt2);
+    this.addGameObject(this.borderOverlay);
 
     this.masterIntro = new GameObject(null,'');
 
     let bkg2PosTimeline = this.masterIntro.addComponent(new PositionTimeline());
     bkg2PosTimeline.targetObject = this.bkg2;
-    bkg2PosTimeline.addKey(0,-380,300,-1);
-    bkg2PosTimeline.addKey(500,-380,-200,-1);
-    bkg2PosTimeline.addKey(1500,-380,0,-4);
+    bkg2PosTimeline.addKey(0,-380,300,-2);
+    bkg2PosTimeline.addKey(500,-380,-200,-2);
+    bkg2PosTimeline.addKey(1500,-380,0,-2);
     bkg2PosTimeline.start();
 
+    let borderPosTimeline = this.masterIntro.addComponent(new PositionTimeline());
+    borderPosTimeline.targetObject = this.borderOverlay;
+    borderPosTimeline.addKey(0,-380,300,5);
+    borderPosTimeline.addKey(500,-380,-200,5);
+    borderPosTimeline.addKey(1490,-380,0,5);
+    borderPosTimeline.addKey(1500,-50,0,5);
+    borderPosTimeline.start();
+
     let endingTxtPosTimeline = this.masterIntro.addComponent(new PositionTimeline());
-    endingTxtPosTimeline.targetObject = this.text2;
-    endingTxtPosTimeline.addKey(0,240,280,-2);
+    endingTxtPosTimeline.targetObject = this.txt2;
+    endingTxtPosTimeline.addKey(0,240,280,-5);
     endingTxtPosTimeline.addKey(1500,240, 280, 2);
     endingTxtPosTimeline.start();
 

@@ -45,17 +45,23 @@ class Creepy extends Scene {
     let txt1audioTimeline = this.txt1.addComponent(new EventTimeline());
     txt1audioTimeline.addEvent(new EventSFX(0, Creepy.beep));
 
+    txt1audioTimeline.start();
+
     this.txt2 = new GameObject(null, "");
     this.txt2.setPosition(0, 0, -2);
     this.txt2.addComponent(new ImageRenderComponent("", Creepy.compText2));
     let txt2audioTimeline = this.txt2.addComponent(new EventTimeline());
-    txt2audioTimeline.addEvent(new EventSFX(0, Creepy.beep));
+    txt2audioTimeline.addEvent(new EventSFX(6000, Creepy.beep));
+
+    txt2audioTimeline.start();
 
     this.txt3 = new GameObject(null, "");
     this.txt3.setPosition(0, 0, -2);
     this.txt3.addComponent(new ImageRenderComponent("", Creepy.compText3));
     let txt3audioTimeline = this.txt1.addComponent(new EventTimeline());
-    txt3audioTimeline.addEvent(new EventSFX(0, Creepy.beep));
+    txt3audioTimeline.addEvent(new EventSFX(12000, Creepy.beep));
+
+    txt3audioTimeline.start();
 
     this.addGameObject(this.txt1);
     this.addGameObject(this.txt2);
@@ -83,15 +89,15 @@ class Creepy extends Scene {
     txt2Timeline.addKey(11000, 100, 900, -2);
     txt2Timeline.start();
 
-    let txt2Timeline = this.masterIntro.addComponent(new PositionTimeline());
-    txt2Timeline.targetObject = this.txt23;
-    txt2Timeline.addKey(12000, 100, 900, 0);
-    txt2Timeline.addKey(13000, 100, 900, -2);
-    txt2Timeline.addKey(14000, 100, 900, 0);
-    txt2Timeline.addKey(15000, 100, 900, -2);
-    txt2Timeline.addKey(16000, 100, 900, 0);
-    txt2Timeline.addKey(17000, 100, 900, -2);
-    txt2Timeline.start();
+    let txt3Timeline = this.masterIntro.addComponent(new PositionTimeline());
+    txt3Timeline.targetObject = this.txt3;
+    txt3Timeline.addKey(12000, 100, 900, 0);
+    txt3Timeline.addKey(13000, 100, 900, -2);
+    txt3Timeline.addKey(14000, 100, 900, 0);
+    txt3Timeline.addKey(15000, 100, 900, -2);
+    txt3Timeline.addKey(16000, 100, 900, 0);
+    txt3Timeline.addKey(17000, 100, 900, -2);
+    txt3Timeline.start();
 
     let eventTimeline = this.masterIntro.addComponent(new EventTimeline());
     eventTimeline.addEvent(new EventChangeScene(18000, new Ending));
