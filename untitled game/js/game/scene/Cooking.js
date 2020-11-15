@@ -200,7 +200,7 @@ class Cooking extends GameScene{
 
   }
 
-  constructor(game){
+  constructor(game = Game.instance){
     super(game);
   }
   onSetup(){

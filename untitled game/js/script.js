@@ -45,11 +45,11 @@ class Game{
       switch(index){
         case 0:
           ++this.cookingIteration;
-          Engine.setScene(new Cooking(this));
+          Engine.setScene(new Cooking());
           break;
         case 1:
           ++this.convoIteration;
-          Engine.setScene(new Convo(this));
+          Engine.setScene(new Convo());
           break;
       }
     }
@@ -95,7 +95,7 @@ function setup() {
   //game.setNextGameByIndex(0);
   // game.moveToNextGame();
   //Engine.setScene(new MainMenu());
-  Engine.setScene(new Creepy());
+  Engine.setScene(new Introduction());
 
   //game.cookingIteration = 2;
   //game.setNextGameByIndex(0);

@@ -36,7 +36,7 @@ class Convo extends GameScene{
     Convo.antSFX = loadSound('assets/sounds/sfx/convo/ant.mp3');
   }
 
-  constructor(game){
+  constructor(game = Game.instance){
     super(game);
   }
   onSetup(){
