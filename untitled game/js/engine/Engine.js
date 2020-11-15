@@ -1,6 +1,6 @@
 
 class Engine{
-  static DebugDrawOn = true;
+  static DebugDrawOn = false;
   static currentScene=null;
   static nextScene=null;
   static renderer=null;

@@ -16,7 +16,8 @@ class Convo extends GameScene{
   static ant1;
   static ant2;
   static talkSFX;
-
+  static sweatSFX;
+  static antSFX;
   static onPreload(){
     Convo.background = loadImage('assets/images/convo/BKG.png');
     Convo.border = loadImage('assets/images/convo/border.png');
@@ -31,6 +32,8 @@ class Convo extends GameScene{
     Convo.bs1 = loadImage('assets/images/convo/bigSweat/bigSweat1.png');
 
     Convo.talkSFX = loadSound('assets/sounds/voiceOver/Convo/ambience.mp3');
+    Convo.sweatSFX = loadSound('assets/sounds/sfx/convo/bubble.mp3');
+    Convo.antSFX = loadSound('assets/sounds/sfx/convo/ant.mp3');
   }
 
   constructor(game){
@@ -118,17 +121,20 @@ class Convo extends GameScene{
         sweatGo.name = "smallSweat";
         sweatGo.addComponent(new ImageRenderComponent("img", Convo.ss1,-16,-50));
         sweatComp.radius = 20;
+        sweatComp.sfx = Convo.sweatSFX;
         break;
       case 1:
         sweatGo.name = "bigSweat";
         sweatGo.addComponent(new ImageRenderComponent("img", Convo.bs1,-40,-120));
         sweatComp.radius = 60;
+        sweatComp.sfx = Convo.sweatSFX;
         break;
       case 2:
         sweatGo.name = "ant";
         sweatGo.addComponent(new ImageRenderComponent("img", Convo.ant1,-150,-100));
         sweatComp.radius = 80;
         sweatComp.speed = 0;
+        sweatComp.sfx = Convo.antSFX;
         break;
     }
 
@@ -169,6 +175,7 @@ class SweatComponent extends GameObjectComponent{
     super("Sweat");
     this.radius = radius;
     this.speed = random(2,5);
+    this.sfx = null;
   }
   run(){
     //console.log("SweatComponent" + this.owner.transform.local.y);
@@ -199,6 +206,7 @@ class ConvoArm extends InteractiveComponent{
       this.attachedSweat = closest;
       closest.setVisible(false);
       closest.owner.addComponent(new AttachToObject("attach", this.owner, this.vectorTo(closest)));
+      if(closest.sfx != null) closest.sfx.play();
     }
     return false;
   }
