@@ -49,6 +49,7 @@ class CookingPaddy extends GameObjectComponent{
   }
 
 }
+
 class CookingArm extends GameObjectComponent{
 
   constructor(){
@@ -173,8 +174,22 @@ class Cooking extends Scene{
 
     // let myTextObject = SceneUtil.addText(this, "Allo Allo", color(0, 0, 255), 'arial', 175,200, 2, 500, 200); // z at -1 will draw bellow
     // myTextObject.setScale(10,10);
+    this.timerObject = new CountdownTimerObject();
+    this.timerObject.setPosition(800,150,5);
+    this.addGameObject(this.timerObject);
 
-    if(Cooking.debug){
+    this.resultMsgObject = new ResultMsgObject();
+    this.resultMsgObject.nextScene = new Driving();
+    this.addGameObject(this.resultMsgObject);
+    // this.timerObject = new GameObject(null, "Timer");
+    // this.timerObject.setPosition(800,150,5);
+    // this.timerObject.addComponent(new CountdownTimerComponent());
+    // let timerText = this.timerObject.addComponent(new TextRenderComponent("text","00:00", color(255,0,0), "arial"));
+    // timerText.size = 64;
+    // this.addGameObject(this.timerObject);
+
+
+    if(Engine.DebugDrawOn){
       this.cookingZone.addComponent(new CircleRenderComponent("", Cooking.CookRadius));
       objectBun.addComponent(new CircleRenderComponent("", Cooking.BunRadius));
       this.paddy.addComponent(new CircleRenderComponent("", Cooking.PaddyRadius));
@@ -182,7 +197,9 @@ class Cooking extends Scene{
   }
 
   onUpdate(){
-
+    if(this.timerObject.isOver() && !this.resultMsgObject.isTimerActive()){
+      this.resultMsgObject.setFail();
+    }
   }
 
   onDraw(renderer){

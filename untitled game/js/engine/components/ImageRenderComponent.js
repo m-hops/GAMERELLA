@@ -26,21 +26,3 @@ class ImageRenderComponent extends RenderComponent{
     }
   }
 }
-
-class CircleRenderComponent extends RenderComponent{
-
-  constructor(name, radius, w=null, h=null){
-    super(name);
-    this.radius = radius;
-  }
-  draw(renderer){
-    if(this.enabled){
-      //console.log("Draw ImageRenderComponent");
-      push();
-      this.applyTransform();
-      noFill();
-      circle(0,0,this.radius*2)
-      pop();
-    }
-  }
-}

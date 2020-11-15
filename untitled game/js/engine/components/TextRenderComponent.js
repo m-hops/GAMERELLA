@@ -9,6 +9,7 @@ class TextRenderComponent extends RenderComponent{
     this.h = h;
     this.color = color;
     this.font = font;
+    this.size = 12;
   }
   draw(renderer){
     //console.log("Draw ImageRenderComponent");
@@ -20,6 +21,7 @@ class TextRenderComponent extends RenderComponent{
     //rect(0, 0, this.w, this.h);
     if(this.color != color) fill(this.color);
     if(this.font != null) textFont(this.font);
+    textSize(this.size);
     text(this.text, 0, 0, this.w, this.h)
     pop();
   }

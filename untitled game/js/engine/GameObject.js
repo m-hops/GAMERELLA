@@ -93,7 +93,7 @@ class GameObject extends BaseObject{
   setPositionVector(v){
     this.transform.local.position = v.copy();
   }
-  setPosition(x,y){
+  setPosition(x,y,z=this.transform.local.position.z){
     this.transform.local.position.x = x;
     this.transform.local.position.y = y;
   }
