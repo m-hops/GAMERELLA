@@ -65,31 +65,31 @@ class Introduction extends Scene{
     this.slide4bkg.setPosition(0, 2000, -4);
     this.slide4bkg.addComponent(new ImageRenderComponent("", Introduction.slide4BKG));
 
-    // this.text1 = new GameObject(null, "");
-    // this.text1.setPosition(100, 300, 1);
-    // this.text1.addComponent(new ImageRenderComponent("", Introduction.slide1Txt));
-    //
-    // this.text2 = new GameObject(null, "");
-    // this.text2.setPosition(100, 300, 1);
-    // this.text2.addComponent(new ImageRenderComponent("", Introduction.slide2Txt));
-    //
-    // this.text3 = new GameObject(null, "");
-    // this.text3.setPosition(100, 300, 1);
-    // this.text3.addComponent(new ImageRenderComponent("", Introduction.slide3Txt));
-    //
-    // this.text4 = new GameObject(null, "");
-    // this.text4.setPosition(100, 300, 1);
-    // this.text4.addComponent(new ImageRenderComponent("", Introduction.slide4Txt));
+    this.text1 = new GameObject(null, "");
+    this.text1.setPosition(100, 300, 1);
+    this.text1.addComponent(new ImageRenderComponent("", Introduction.slide1Txt));
+
+    this.text2 = new GameObject(null, "");
+    this.text2.setPosition(0, 2000, 1);
+    this.text2.addComponent(new ImageRenderComponent("", Introduction.slide2Txt));
+
+    this.text3 = new GameObject(null, "");
+    this.text3.setPosition(0, 2000, 1);
+    this.text3.addComponent(new ImageRenderComponent("", Introduction.slide3Txt));
+
+    this.text4 = new GameObject(null, "");
+    this.text4.setPosition(0, 2000, 1);
+    this.text4.addComponent(new ImageRenderComponent("", Introduction.slide4Txt));
 
     this.addGameObject(this.slide1bkg);
     this.addGameObject(this.slide2bkg);
     this.addGameObject(this.slide3bkg);
     this.addGameObject(this.slide4bkg);
 
-    // this.addGameObject(this.text1);
-    // this.addGameObject(this.text2);
-    // this.addGameObject(this.text3);
-    // this.addGameObject(this.text4);
+    this.addGameObject(this.text1);
+    this.addGameObject(this.text2);
+    this.addGameObject(this.text3);
+    this.addGameObject(this.text4);
 
     this.masterIntro = new GameObject(null,'');
 
@@ -100,13 +100,12 @@ class Introduction extends Scene{
     slide1bkgPosTimeline.addKey(14029,-1200,2000,-4);
     slide1bkgPosTimeline.start();
 
-    // let text1PosTimeline = this.masterIntro.addComponent(new PositionTimeline());
-    // text1PosTimeline.targetObject = this.text1;
-    // text1PosTimeline.addKey(0,100,300,1);
-    // text1PosTimeline.addKey(12028,200,300,1);
-    // text1PosTimeline.addKey(13028,200,200,1);
-    // text1PosTimeline.addKey(14028,200,1000,1);
-    // text1PosTimeline.start();
+    let text1PosTimeline = this.masterIntro.addComponent(new PositionTimeline());
+    text1PosTimeline.targetObject = this.text1;
+    text1PosTimeline.addKey(0,100,300,4);
+    text1PosTimeline.addKey(12328,100,200,4);
+    text1PosTimeline.addKey(14028,200,3000,1);
+    text1PosTimeline.start();
 
     let slide2bkgPosTimeline = this.masterIntro.addComponent(new PositionTimeline());
     slide2bkgPosTimeline.targetObject = this.slide2bkg;
@@ -115,6 +114,13 @@ class Introduction extends Scene{
     slide2bkgPosTimeline.addKey(24791,0,2000,-4);
     slide2bkgPosTimeline.start();
 
+    let text2PosTimeline = this.masterIntro.addComponent(new PositionTimeline());
+    text2PosTimeline.targetObject = this.text2;
+    text2PosTimeline.addKey(14029,100,350,4);
+    text2PosTimeline.addKey(24090,100,250,4);
+    text2PosTimeline.addKey(24790,200,3000,1);
+    text2PosTimeline.start();
+
     let slide3bkgPosTimeline = this.masterIntro.addComponent(new PositionTimeline());
     slide3bkgPosTimeline.targetObject = this.slide3bkg;
     slide3bkgPosTimeline.addKey(24790,0,0,-1);
@@ -122,12 +128,30 @@ class Introduction extends Scene{
     slide3bkgPosTimeline.addKey(37219,0,2000,-4);
     slide3bkgPosTimeline.start();
 
+    let text3PosTimeline = this.masterIntro.addComponent(new PositionTimeline());
+    text3PosTimeline.targetObject = this.text3;
+    text3PosTimeline.addKey(24790,100,350,4);
+    text3PosTimeline.addKey(36518,100,250,4);
+    text3PosTimeline.addKey(37218,200,3000,1);
+    text3PosTimeline.start();
+
     let slide4bkgPosTimeline = this.masterIntro.addComponent(new PositionTimeline());
     slide4bkgPosTimeline.targetObject = this.slide4bkg;
     slide4bkgPosTimeline.addKey(37218,0,0,-1);
     slide4bkgPosTimeline.addKey(42634,0,0,-1);
     slide4bkgPosTimeline.addKey(42634,0,2000,-4);
     slide4bkgPosTimeline.start();
+
+    let text4PosTimeline = this.masterIntro.addComponent(new PositionTimeline());
+    text4PosTimeline.targetObject = this.text4;
+    text4PosTimeline.addKey(37218,100,400,4);
+    text4PosTimeline.addKey(41934,100,300,4);
+    text4PosTimeline.addKey(42364,100,3000,1);
+    text4PosTimeline.start();
+
+    let eventTimeline = this.masterIntro.addComponent(new EventTimeline());
+    eventTimeline.addEvent(new EventChangeScene(42464, new PracticeMenu()));
+    eventTimeline.start();
 
     this.addGameObject(this.masterIntro);
 
