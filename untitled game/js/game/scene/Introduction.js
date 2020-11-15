@@ -15,13 +15,13 @@ class Introduction extends Scene{
     Introduction.border = loadImage('assets/images/3. intro/pageBorder.png');
     Introduction.bkgOverlay = loadImage('assets/images/3. intro/blueFadeOverlay.png');
 
-    Introduction.slide1BKG = loadImage('assets/images/3. intro/slide1/BKG.png');
+    Introduction.slide1BKG = loadImage('assets/images/3. intro/slide1/bkg.png');
     Introduction.slide1Txt = loadImage('assets/images/3. intro/slide1/text.png');
-    Introduction.slide2BKG = loadImage('assets/images/3. intro/slide2/BKG.png');
+    Introduction.slide2BKG = loadImage('assets/images/3. intro/slide2/bkg.png');
     Introduction.slide2Txt = loadImage('assets/images/3. intro/slide2/text.png');
-    Introduction.slide3BKG = loadImage('assets/images/3. intro/slide3/BKG.png');
+    Introduction.slide3BKG = loadImage('assets/images/3. intro/slide3/bkg.png');
     Introduction.slide3Txt = loadImage('assets/images/3. intro/slide3/text.png');
-    Introduction.slide4BKG = loadImage('assets/images/3. intro/slide4/BKG.png');
+    Introduction.slide4BKG = loadImage('assets/images/3. intro/slide4/bkg.png');
     Introduction.slide4Txt = loadImage('assets/images/3. intro/slide4/text.png');
 
     Introduction.myAudio = loadSound('assets/sounds/voiceOver/3. Introduction/introAll.mp3');
