@@ -1,9 +1,8 @@
 
 class SFXComponent extends GameObjectComponent{
   static ID = 102;
-  constructor(sfx, owner=null){
-    super(owner);
-    this.owner = owner;
+  constructor(name=null, sfx){
+    super(name);
     this.sfx = sfx;
   }
   is(flag){

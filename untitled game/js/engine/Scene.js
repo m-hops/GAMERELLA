@@ -38,6 +38,21 @@ class Scene extends BaseObject{
     this.onPostUpdate();
   }
 
+  getFirstGameObjectByName(name, onlyActive=false){
+    for(let i = 0; i != this.rootGameObjects.length; ++i){
+      if(this.rootGameObjects[i].name == name){
+        return this.rootGameObjects[i];
+      }
+    }
+    return null;
+  }
+  getFirstGameObjectComponentByName(name, onlyActive=false){
+    for(let i = 0; i != this.rootGameObjects.length; ++i){
+      let result = this.rootGameObjects[i].getFirstComponentAndChildByName(name, onlyActive);
+      if(result != null) return result;
+    }
+    return null;
+  }
   getAllComponentAndChildrenWithFlag(flag, onlyActive=false){
     let result = [];
     for(let i = 0; i != this.rootGameObjects.length; ++i){
@@ -142,6 +157,10 @@ class Scene extends BaseObject{
 
   }
   onDraw(renderer){
+
+  }
+
+  onDispose(){
 
   }
 }

@@ -1,4 +1,118 @@
+
+
+class CookingPaddy extends GameObjectComponent{
+  //static CookingPosition = new p5.Vector(1450,450,1);
+  constructor(){
+    super("CookingPaddy");
+    this.cooked = false;
+    this.cooking = false;
+    this.cookTime = 1000;
+  }
+
+  run(){
+    if(this.cooking){
+      console.log("rrrrrrrrrr");
+      this.cookTime -= deltaTime;
+      if(this.cookTime <= 0){
+        this.setCooked();
+      }
+    }
+  }
+  setCooked(){
+    this.cooked = true;
+    let cooked = this.owner.getFirstComponentByName("cooked");
+    if(cooked != null){
+      cooked.enabled = true;
+    }
+    let raw = this.owner.getFirstComponentByName("raw");
+    if(raw != null){
+      raw.enabled = false;
+    }
+  }
+  setRaw(){
+    this.cooked = false;
+    let cooked = this.owner.getFirstComponentByName("cooked");
+    if(cooked != null){
+      cooked.enabled = false;
+    }
+    let raw = this.owner.getFirstComponentByName("raw");
+    if(raw != null){
+      raw.enabled = true;
+    }
+  }
+  onClick(){
+    if(this.cooked){
+      this.setRaw();
+    } else {
+      this.setCooked();
+    }
+  }
+
+}
+class CookingArm extends GameObjectComponent{
+
+  constructor(){
+    super("CookingArm");
+  }
+  onTryDrop(paddy, attachComp){
+    let cookingZone = this.getScene().getFirstGameObjectComponentByName("CookingZone");
+
+    let offset = p5.Vector.sub(cookingZone.getPosition(), paddy.getPosition());
+    let dist = offset.mag();
+
+    if(dist < Cooking.CookRadius){
+      paddy.owner.removeComponent(attachComp);
+      paddy.cooking = true;
+      return;
+    }
+
+    let bunGo = this.getScene().getFirstGameObjectByName("Bun");
+
+    offset = p5.Vector.sub(bunGo.getPosition(), paddy.getPosition());
+    dist = offset.mag();
+
+    if(dist < Cooking.BunRadius){
+      paddy.owner.removeComponent(attachComp);
+      return;
+    }
+  }
+  onTryPickupPaddy(paddy){
+    let offset = p5.Vector.sub(paddy.getPosition(), this.getPosition());
+    let dist = offset.mag();
+    if(dist < Cooking.PaddyRadius){
+      paddy.owner.addComponent(new AttachToObject("attach", this.owner, new p5.Vector(offset.x,offset.y,1)));
+      paddy.cooking = false;
+    }
+  }
+  onClick(){
+    let paddy = this.getScene().getFirstGameObjectComponentByName("CookingPaddy");
+    if(paddy != null){
+      console.log("CookingArm.onClick paddy");
+      let attach = paddy.owner.getFirstComponentByName("attach");
+      if(attach != null){
+        this.onTryDrop(paddy, attach);
+      } else{
+        this.onTryPickupPaddy(paddy);
+      }
+    }
+  }
+}
+
+class CookingZone extends GameObjectComponent{
+  constructor(){
+    super("CookingZone");
+  }
+}
+
+
 class Cooking extends Scene{
+  static debug = true;
+  static RawPosition = new p5.Vector(1450,450,1);
+  static CookPosition = new p5.Vector(50,250,1);
+  static CookRadius = 200;
+  static BunRadius = 200;
+  static PaddyRadius = 200;
+
   static background;
   static border;
   static arm;
@@ -24,23 +138,47 @@ class Cooking extends Scene{
     // z at 0 will draw between -1 and 1
     // z at 1 will draw on top
     // z at -1 will draw bellow
+    this.paddy = new GameObject(null, "Paddy");
+    this.paddy.setPositionVector(Cooking.RawPosition);
+    let paddyComp = this.paddy.addComponent(new CookingPaddy());
+    this.paddy.addComponent(new ImageRenderComponent("raw", Cooking.pRaw,0,0));
+    this.paddy.addComponent(new ImageRenderComponent("cooked", Cooking.pCooked,0,0));
+    paddyComp.setRaw();
+    this.addGameObject(this.paddy);
+
+    this.arm = new GameObject(null, "Arm");
+    let armComp = this.arm.addComponent(new CookingArm());
+    this.arm.addComponent(new ImageRenderComponent("Img", Cooking.arm,0,0));
+    this.arm.addComponent(new InteractiveComponent("Arm interactable", armComp, armComp.onClick));
+    this.arm.addComponent(new AttachToMouse("attach", -200,-400));
+    this.addGameObject(this.arm);
+
+    this.cookingZone = new GameObject(null, "CookingZone");
+    this.cookingZone.setPositionVector(Cooking.CookPosition);
+    let cookingZoneComp = this.cookingZone.addComponent(new CookingZone());
+    this.addGameObject(this.cookingZone);
 
     let objectBG = SceneUtil.addImage(this, "Background", Cooking.background, 0,0,-3);
 
     let objectBun = SceneUtil.addImage(this, "Bun", Cooking.bun, 1400,400,-2);
 
-    let objectPCooked = SceneUtil.addImage(this, "PCook", Cooking.pCooked, 100,400,-1);
+    //let objectPCooked = SceneUtil.addImage(this, "PCook", Cooking.pCooked, 100,400,-1);
 
-    let objectPRaw = SceneUtil.addImage(this, "PRaw", Cooking.pRaw, 1450,450,1);
+    //let objectPRaw = SceneUtil.addImage(this, "PRaw", Cooking.pRaw, 1450,450,1);
 
-    this.arm = SceneUtil.addImage(this, "Arm", Cooking.arm, mouseX,mouseY,0);
-    this.arm.addComponent(new AttachToMouse(-200,-400));
+    //this.arm = SceneUtil.addImage(this, "Arm", Cooking.arm, mouseX,mouseY,0);
 
 
     let objectBorder = SceneUtil.addImage(this, "border", Cooking.border, 0,0,2);
 
     // let myTextObject = SceneUtil.addText(this, "Allo Allo", color(0, 0, 255), 'arial', 175,200, 2, 500, 200); // z at -1 will draw bellow
     // myTextObject.setScale(10,10);
+
+    if(Cooking.debug){
+      this.cookingZone.addComponent(new CircleRenderComponent("", Cooking.CookRadius));
+      objectBun.addComponent(new CircleRenderComponent("", Cooking.BunRadius));
+      this.paddy.addComponent(new CircleRenderComponent("", Cooking.PaddyRadius));
+    }
   }
 
   onUpdate(){
@@ -50,4 +188,7 @@ class Cooking extends Scene{
   onDraw(renderer){
 
   }
+
+
+
 }

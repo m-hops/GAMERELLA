@@ -1,8 +1,8 @@
 
 class RectangleCollision extends CollisionComponent{
 
-  constructor(x,y,w,h, owner=null){
-    super(owner);
+  constructor(name,x,y,w,h){
+    super(name);
     this.aabb = new AABB(x+w/2,y+h/2,w/2,h/2);
   }
   is(flag){

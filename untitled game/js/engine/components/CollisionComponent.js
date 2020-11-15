@@ -1,9 +1,8 @@
 
 class CollisionComponent extends GameObjectComponent{
   static ID = 100;
-  constructor(owner=null){
-    super(owner);
-    this.owner = owner;
+  constructor(name=null){
+    super(name);
   }
   is(flag){
     return flag === CollisionComponent.ID;

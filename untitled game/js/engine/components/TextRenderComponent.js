@@ -2,8 +2,8 @@
 
 class TextRenderComponent extends RenderComponent{
 
-  constructor(text, color, font, w=1000, h=1000){
-    super();
+  constructor(name, text, color, font, w=1000, h=1000){
+    super(name);
     this.text = text;
     this.w = w;
     this.h = h;

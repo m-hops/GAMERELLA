@@ -1,9 +1,8 @@
 
 class InteractiveComponent extends GameObjectComponent{
   static ID = 101;
-  constructor(target, onClick, owner=null){
-    super(owner);
-    this.owner = owner;
+  constructor(name, target, onClick){
+    super(name);
     this.target = target;
     this.onClick = onClick;
   }
@@ -13,7 +12,7 @@ class InteractiveComponent extends GameObjectComponent{
   processMouseClick(posLocal, posWorld, event){
     //console.log(event);
     if(this.onClick != null){
-      this.onClick.apply(this.target, [posLocal, posWorld, event]);
+      return this.onClick.apply(this.target, [posLocal, posWorld, event]);
     }
     return false;
   }

@@ -21,6 +21,7 @@ class GameObject extends BaseObject{
     comp.setOwner(this);
     //console.log("add comp " + comp.constructor.name + " to " + comp.owner.name);
     this.components.push(comp);
+    return comp;
   }
   removeComponent(comp){
     let index = this.components.indexOf(comp);
@@ -28,6 +29,32 @@ class GameObject extends BaseObject{
       this.components.splice(index,1);
       comp.owner = null;
     }
+  }
+
+  getFirstComponentByName(name, onlyEnabled=false){
+    if(onlyEnabled && !this.enabled) return null;
+    for(let i = 0; i != this.components.length; ++i){
+      if( (!onlyEnabled || this.components[i].enabled)
+          && this.components[i].name == name){
+        return this.components[i];
+      }
+    }
+    return null;
+  }
+  getFirstComponentAndChildByName(name, onlyEnabled=false){
+    if(onlyEnabled && !this.enabled) return null;
+    let result = this.getFirstComponentByName(name, onlyEnabled);
+    if(result != null) return result;
+
+    // check in children
+    for(let i = 0; i != this.transform.children.length; ++i){
+      if(!onlyEnabled || this.transform.children[i].owner.enabled){
+        result = this.transform.children[i].owner.getFirstComponentAndChildByName(name, onlyEnabled);
+        if(result != null) return result;
+      }
+    }
+
+    return null;
   }
   getFirstComponentWithFlag(flag){
     for(let i = 0; i != this.components.length; ++i){
@@ -63,9 +90,15 @@ class GameObject extends BaseObject{
     return [];
   }
 
+  setPositionVector(v){
+    this.transform.local.position = v.copy();
+  }
   setPosition(x,y){
     this.transform.local.position.x = x;
     this.transform.local.position.y = y;
+  }
+  getPosition(){
+    return this.transform.world.position;
   }
   setScale(x,y){
     this.transform.local.scale.x = x;

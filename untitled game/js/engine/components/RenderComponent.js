@@ -1,9 +1,8 @@
 
 class RenderComponent extends GameObjectComponent{
   static ID = 9999;
-  constructor(owner=null){
-    super(owner);
-      this.owner = owner;
+  constructor(name=null){
+    super(name);
   }
   is(flag){
     return flag === RenderComponent.ID;

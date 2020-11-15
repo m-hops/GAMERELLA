@@ -34,7 +34,7 @@ class TestScene extends Scene{
 
     let debugTextGO = new GameObject(null,"debugText");
     debugTextGO.transform.local.setPosition(175,200,2);
-    this.debugTextComp = new TextRenderComponent("Allo Allo", color(0, 0, 255), "arial", 500, 200);
+    this.debugTextComp = new TextRenderComponent("text", "Allo Allo", color(0, 0, 255), "arial", 500, 200);
     debugTextGO.addComponent(this.debugTextComp);
     this.addGameObject(debugTextGO);
 
@@ -42,13 +42,13 @@ class TestScene extends Scene{
     this.testAABB.transform.local.setPosition(800,200, 2);
     //this.testAABB.transform.local.setScale(2,2);
     this.testAABB.transform.local.rotation = 0.25 * PI;
-    this.testAABB.addComponent(new RectangleCollision(-25,-25,100,100));
-    this.testAABB.addComponent(new InteractiveComponent(this, this.onButtonClick));
+    this.testAABB.addComponent(new RectangleCollision(null, -25,-25,100,100));
+    this.testAABB.addComponent(new InteractiveComponent(null, this, this.onButtonClick));
     this.addGameObject(this.testAABB);
 
     this.goTestSFX = new GameObject(null,"testSFX");
     this.goTestSFX.enabled = false;
-    this.goTestSFX.addComponent(new SFXComponent(TestScene.testSFX));
+    this.goTestSFX.addComponent(new SFXComponent(null, TestScene.testSFX));
     this.addGameObject(this.goTestSFX);
 
 

@@ -41,6 +41,11 @@ class Transform{
     vec.div(this.scale);
     return result;
   }
+  set(otherTransform){
+    this.position = otherTransform.position.copy();
+    this.scale = otherTransform.scale.copy();
+    this.rotation = otherTransform.rotation;
+  }
   setPosition(x,y,z=this.position.z){
     this.position.x = x;
     this.position.y = y;
@@ -53,6 +58,9 @@ class Transform{
   move(x,y){
     this.position.x += x;
     this.position.y += y;
+  }
+  moveByVector(v){
+    this.position.add(v);
   }
   apply(){
     //console.log("apply transform\n pos=" + this.position
