@@ -17,8 +17,8 @@ class Game{
   }
   constructor(){
     this.lastGame = -1;
-    this.cookingIteration = 0;
-    this.convoIteration = 0;
+    this.cookingIteration = 1;
+    this.convoIteration = 3;
     this.gameCount=0;
     Game.instance = this;
   }
@@ -69,7 +69,6 @@ function preload(){
   Convo.onPreload();
   Creepy.onPreload();
   Ending.onPreload();
-  GameStart.onPreload();
   ConvoIntro.onPreload();
   CookingIntro.onPreload();
 }
@@ -95,7 +94,7 @@ function setup() {
   //game.setNextGameByIndex(0);
   // game.moveToNextGame();
   //Engine.setScene(new MainMenu());
-  Engine.setScene(new ConvoIntro());
+  Engine.setScene(new Creepy());
 }
 
 function draw() {

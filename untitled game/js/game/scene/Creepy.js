@@ -37,15 +37,18 @@ class Creepy extends Scene{
     // let myTextObject = SceneUtil.addText(this, "Allo Allo", color(0, 0, 255), 'arial', 175,200, 2, 500, 200); // z at -1 will draw bellow
     // myTextObject.setScale(10,10);
 
-    // SceneUtil.addSFX(this, "", Creepy.ambience, true);
+    SceneUtil.addSFX(this, "", Creepy.ambience, true);
 
     this.txt1 = new GameObject(null, "");
     this.txt1.setPosition(0, 0, -2);
     this.txt1.addComponent(new ImageRenderComponent("", Creepy.compText1));
+    let txt1audioTimeline = this.txt1.addComponent(new EventTimeline());
+    txt1audioTimeline.addEvent( new EventSFX(0, ConvoIntro.v1));
 
     this.txt2 = new GameObject(null, "");
     this.txt2.setPosition(0, 0, -2);
     this.txt2.addComponent(new ImageRenderComponent("", Creepy.compText2));
+
 
     this.txt3 = new GameObject(null, "");
     this.txt3.setPosition(0, 0, -2);
@@ -68,13 +71,23 @@ class Creepy extends Scene{
     txt1Timeline.start();
 
     let txt2Timeline = this.masterIntro.addComponent(new PositionTimeline());
-    txt2Timeline.targetObject = this.txt1;
-    txt2Timeline.addKey(0,100,900,0);
-    txt2Timeline.addKey(1000,100,900,-2);
-    txt2Timeline.addKey(2000,100,900,0);
-    txt2Timeline.addKey(3000,100,900,-2);
-    txt2Timeline.addKey(4000,100,900,0);
-    txt2Timeline.addKey(5000,100,900,-2);
+    txt2Timeline.targetObject = this.txt2;
+    txt2Timeline.addKey(6000,100,900,0);
+    txt2Timeline.addKey(7000,100,900,-2);
+    txt2Timeline.addKey(8000,100,900,0);
+    txt2Timeline.addKey(9000,100,900,-2);
+    txt2Timeline.addKey(10000,100,900,0);
+    txt2Timeline.addKey(11000,100,900,-2);
+    txt2Timeline.start();
+
+    let txt2Timeline = this.masterIntro.addComponent(new PositionTimeline());
+    txt2Timeline.targetObject = this.txt23;
+    txt2Timeline.addKey(12000,100,900,0);
+    txt2Timeline.addKey(13000,100,900,-2);
+    txt2Timeline.addKey(14000,100,900,0);
+    txt2Timeline.addKey(15000,100,900,-2);
+    txt2Timeline.addKey(16000,100,900,0);
+    txt2Timeline.addKey(17000,100,900,-2);
     txt2Timeline.start();
 
     this.addGameObject(this.masterIntro);
