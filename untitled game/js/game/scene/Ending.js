@@ -5,6 +5,11 @@ class Ending extends Scene{
   static text1;
   static text2;
   static overlay;
+  static compBKG;
+  static compOverlay
+  static compText1;
+  static compText2;
+  static compText3;
 
   static onPreload(){
     Ending.background1 = loadImage('assets/images/Ending/bkg1.png');
@@ -13,6 +18,7 @@ class Ending extends Scene{
     Ending.text1 = loadImage('assets/images/Ending/text1.png');
     Ending.text2 = loadImage('assets/images/Ending/text2.png');
     Ending.overlay = loadImage('assets/images/Ending/blueFadeOverlay.png');
+
 
   }
 
@@ -35,6 +41,8 @@ class Ending extends Scene{
     // myTextObject.setScale(10,10);
 
     SceneUtil.addSFX(this, "", MainMenu.theme, true);
+
+
   }
 
   onUpdate(){

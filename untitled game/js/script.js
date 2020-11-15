@@ -59,7 +59,11 @@ function preload(){
   Cooking.onPreload();
   Driving.onPreload();
   Convo.onPreload();
+  Creepy.onPreload();
   Ending.onPreload();
+  GameStart.onPreload();
+  ConvoIntro.onPreload();
+  CookingIntro.onPreload();
 }
 
 function setup() {
@@ -76,9 +80,9 @@ function setup() {
   //Engine.setScene(new Convo());
 
   //game.setNextGameByIndex(0);
-  game.moveToNextGame();
+  // game.moveToNextGame();
   //Engine.setScene(new MainMenu());
-  //Engine.setScene(new Introduction());
+  Engine.setScene(new ConvoIntro());
 }
 
 function draw() {

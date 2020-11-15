@@ -10,6 +10,7 @@ class Introduction extends Scene{
   static slide4BKG;
   static slide4Txt;
   static myAudio;
+
   static onPreload(){
     Introduction.border = loadImage('assets/images/3. intro/pageBorder.png');
     Introduction.bkgOverlay = loadImage('assets/images/3. intro/blueFadeOverlay.png');
