@@ -160,6 +160,18 @@ class CookingZone extends GameObjectComponent{
   }
 }
 
+class CookingConfig extends MiniGameConfig{
+  constructor(){
+    super();
+    this.time = 10*1000;
+    this.hasCatSwipe = false;
+    this.handOnFire = false;
+  }
+
+  createScene(game){
+    return new CookingIntro(this, game)
+  }
+};
 
 class Cooking extends GameScene{
   static debug = true;
@@ -200,14 +212,17 @@ class Cooking extends GameScene{
 
   }
 
-  constructor(game = Game.instance){
+
+  constructor(config, game = Game.instance){
     super(game);
+    this.config = config;
   }
   onSetup(){
     super.onSetup();
-    let timeRatio = (5 - (this.game.cookingIteration-1)) / 5.0;
-    if(timeRatio <0) timeRatio = 0;
-    this.setTimer(4000 + 4000 * timeRatio);
+    // let timeRatio = (5 - (this.game.cookingIteration-1)) / 5.0;
+    // if(timeRatio <0) timeRatio = 0;
+    // this.setTimer(4000 + 4000 * timeRatio);
+    this.setTimer(this.config.time);
     // z at 0 will draw between -1 and 1
     // z at 1 will draw on top
     // z at -1 will draw bellow
@@ -225,7 +240,7 @@ class Cooking extends GameScene{
     this.arm.addComponent(new InteractiveComponent("Arm interactable", this.armComp, this.armComp.onClick));
     this.arm.addComponent(new AttachToMouse("attach", -200,-400));
 
-    if(this.game.cookingIteration >= 3){
+    if(this.config.handOnFire){
       // you're on fire! literally ._.
       this.armFire = new GameObject(null, "ArmFire");
       this.armFire.setPosition(-100,500);
@@ -255,27 +270,30 @@ class Cooking extends GameScene{
 
     let objectBorder = SceneUtil.addImage(this, "border", Cooking.border, 0,0,2);
 
-    this.catActivated = false;
-    this.catObj = new GameObject(null, "Cat");
-    this.catObj.setPosition(width*0.4,-50000);
-    this.catObj.addComponent(new ImageRenderComponent("Img", Cooking.paw));
-    this.catRotTimeline = this.catObj.addComponent(new RotationTimeline());
-    this.catRotTimeline.addKeyDegree(0, -45);
-    this.catRotTimeline.addKeyDegree(350, 60);
-    //this.catRotTimeline.start();
-    this.catPosTimeline = this.catObj.addComponent(new PositionTimeline());
-    this.catPosTimeline.addKey(0, width*0.4,-1000,3);
-    this.catPosTimeline.addKey(125, width*0.4,-500,3);
-    this.catPosTimeline.addKey(350, width*0.4,-1000,1);
-    //this.catPosTimeline.start();
-    this.catEventTimeline = this.catObj.addComponent(new EventTimeline());
-    this.catEventTimeline.addEvent(new EventCallback(125, this, this.onCatHit));
-    this.catEventTimeline.addEvent(new EventSFX(0, Cooking.catMeow));
-    this.addGameObject(this.catObj);
+    if(this.config.hasCatSwipe){
+      this.catActivated = false;
+      this.catObj = new GameObject(null, "Cat");
+      this.catObj.setPosition(width*0.4,-50000);
+      this.catObj.addComponent(new ImageRenderComponent("Img", Cooking.paw));
+      this.catRotTimeline = this.catObj.addComponent(new RotationTimeline());
+      this.catRotTimeline.addKeyDegree(0, -45);
+      this.catRotTimeline.addKeyDegree(350, 60);
+      //this.catRotTimeline.start();
+      this.catPosTimeline = this.catObj.addComponent(new PositionTimeline());
+      this.catPosTimeline.addKey(0, width*0.4,-1000,3);
+      this.catPosTimeline.addKey(125, width*0.4,-500,3);
+      this.catPosTimeline.addKey(350, width*0.4,-1000,1);
+      //this.catPosTimeline.start();
+      this.catEventTimeline = this.catObj.addComponent(new EventTimeline());
+      this.catEventTimeline.addEvent(new EventCallback(125, this, this.onCatHit));
+      this.catEventTimeline.addEvent(new EventSFX(0, Cooking.catMeow));
+      this.addGameObject(this.catObj);
 
-    this.catZoneObj = new GameObject(null, "CatZone");
-    this.catZoneObj.setPosition(width*0.5,height*0.25);
-    this.addGameObject(this.catZoneObj);
+      this.catZoneObj = new GameObject(null, "CatZone");
+      this.catZoneObj.setPosition(width*0.5,height*0.25);
+      this.addGameObject(this.catZoneObj);
+    }
+
 
     if(Engine.DebugDrawOn){
       this.cookingZone.addComponent(new CircleRenderComponent("", Cooking.CookRadius));
@@ -301,7 +319,7 @@ class Cooking extends GameScene{
     super.onUpdate();
 
     // cat logic only after first iteration
-    if(this.game.cookingIteration > 1){
+    if(this.config.hasCatSwipe){
       if(!this.catActivated && this.paddyComp.isPickedUp){
         let dist = this.arm.distTo(this.catZoneObj);
         if(dist < Cooking.CatZoneRadius){

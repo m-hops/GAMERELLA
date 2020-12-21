@@ -18,11 +18,11 @@ class GameScene extends Scene{
 
 
     this.timerObject = new CountdownTimerObject();
-    this.timerObject.setPosition(width*0.5-30,150,5);
+    this.timerObject.setPosition(Screen.refWidth*0.5-30,150,5);
     this.addGameObject(this.timerObject);
 
     this.resultMsgObject = new ResultMsgObject(this, this.onEndMessageOver);
-    this.resultMsgObject.setPosition(width*0.5,height*0.5,5);
+    this.resultMsgObject.setPosition(Screen.refWidth*0.5,Screen.refHeight*0.5,5);
     this.addGameObject(this.resultMsgObject);
   }
   setTimer(ms){

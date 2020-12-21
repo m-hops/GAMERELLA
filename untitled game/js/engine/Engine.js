@@ -71,7 +71,7 @@ class Engine{
   //   }
   // }
   static mouseEvent(event, func) {
-    let mouse = getMouseVector();
+    let mouse = Screen.getMouseVector();
     if(Engine.currentScene != null){
       let interactables = Engine.currentScene.getAllComponentWithFlag(InteractiveComponent.ID, true, true);
       //console.log("interactables count=" + interactables.length);

@@ -1,3 +1,18 @@
+
+class ConvoConfig extends MiniGameConfig{
+  constructor(){
+    super();
+    this.time = 10*1000;
+    this.hasAnts = false;
+    this.hasBlink = false;
+    this.ConvoSpeed = 1;
+  }
+
+  createScene(game){
+    return new Convo(this, game)
+  }
+};
+
 class Convo extends GameScene{
   static eyeRadius = 400;
   static playerOverlayWidth = 2651;
@@ -36,20 +51,22 @@ class Convo extends GameScene{
     Convo.antSFX = loadSound('assets/sounds/sfx/convo/ant.mp3');
   }
 
-  constructor(game = Game.instance){
+  constructor(config, game = Game.instance){
     super(game);
+    this.config = config;
   }
   onSetup(){
     super.onSetup();
-    let timeRatio = (5 - (this.game.convoIteration-1)) / 5.0;
-    timeRatio = constrain(timeRatio, 0, 1);
-    this.setTimer(5000 + 5000 * timeRatio);
+    // let timeRatio = (5 - (this.game.convoIteration-1)) / 5.0;
+    // timeRatio = constrain(timeRatio, 0, 1);
+    // this.setTimer(5000 + 5000 * timeRatio);
+    this.setTimer(this.config.time);
     // z at 0 will draw between -1 and 1
     // z at 1 will draw on top
     // z at -1 will draw bellow
     let bgObj = SceneUtil.addImage(this, 'background', Convo.background, 0,0,-2);
-    let talkSFX = bgObj.addComponent(new SFXComponent(null, Convo.talkSFX));
-    talkSFX.rate = 1 + (1-timeRatio) * 1.5;
+    // let talkSFX = bgObj.addComponent(new SFXComponent(null, Convo.talkSFX));
+    // talkSFX.rate = this.config.ConvoSpeed;//1 + (1-timeRatio) * 1.5;
 
     SceneUtil.addImage(this, 'border', Convo.border,0,0,2);
 
@@ -58,7 +75,7 @@ class Convo extends GameScene{
 
 
     this.player = new GameObject(null, "Player");
-    this.player.setPosition(width*0.5,0,1);
+    this.player.setPosition(Screen.refWidth*0.5,0,1);
     this.player.addComponent(new ImageRenderComponent("player", Convo.player,-Convo.playerOverlayWidth*0.5,0)); //2651 x 1080
     //this.player.addComponent(new AttachToMouse("attach", 0,0));
     let eye0 = this.player.addChild(new GameObject(null, "eye"));
@@ -88,16 +105,19 @@ class Convo extends GameScene{
         v = p5.Vector.add(eye1.getPosition(), v);
       }
       let sweatType = floor(random(0,2));
-      let antR = random(0,100);
-      let antChance = -10 + game.convoIteration*10;
-      antChance = constrain(antChance, 0, 80);
-      if(antR < antChance){
-        sweatType = 2;
-        ++antCount;
-      }
-      if(game.convoIteration == 3 && antCount == 0){
-        sweatType = 2;
-        ++antCount;
+      if(this.config.hasAnts){
+        if(antCount == 0){
+          sweatType = 2;
+          ++antCount;
+        } else {
+          let antR = random(0,100);
+          let antChance = 0.2;//-10 + game.convoIteration*10;
+          antChance = constrain(antChance, 0, 80);
+          if(antR < antChance){
+            sweatType = 2;
+            ++antCount;
+          }
+        }
       }
 
       this.addSweat(v.x, v.y , sweatType);

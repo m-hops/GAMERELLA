@@ -1,61 +1,8 @@
 
+"use strict"
 
 
-function getMouseVector(){
-  return new p5.Vector(mouseX, mouseY, 0);
-}
 
-
-class Game{
-  static ImgSuccess;
-  static ImgFail;
-  static instance;
-  static onPreload(){
-
-    Game.ImgFail = loadImage('assets/images/generalAssets/FAILURE.png');
-    Game.ImgSuccess = loadImage('assets/images/generalAssets/GOOD.png');
-  }
-  constructor(){
-    this.lastGame = -1;
-    this.cookingIteration = 1;
-    this.convoIteration = 3;
-    this.gameCount=0;
-    Game.instance = this;
-  }
-  reset(){
-    this.lastGame = -1;
-    this.cookingIteration = 0;
-    this.convoIteration = 0;
-    this.gameCount=0;
-  }
-  moveToNextGame(){
-    let index = (this.lastGame+1)%2;
-    //let index = floor(random(0,2));
-    console.log("moveToNextGame " + index);
-    this.setNextGameByIndex(index);
-    this.lastGame = index;
-  }
-  setNextGameByIndex(index){
-    if(this.gameCount >= 6){
-
-      Engine.setScene(new Creepy());
-    } else {
-      ++this.gameCount;
-
-      switch(index){
-        case 0:
-          ++this.cookingIteration;
-          Engine.setScene(new Cooking(this));
-          break;
-        case 1:
-          ++this.convoIteration;
-          Engine.setScene(new Convo(this));
-          break;
-      }
-    }
-  }
-}
-let game = new Game;
 
 function preload(){
   GameScene.onPreload();
@@ -73,13 +20,18 @@ function preload(){
   CookingIntro.onPreload();
   Creepy.onPreload();
 }
-
+function windowResized() {
+  Screen.ResizeCanvas();
+}
+let game;// = new Game();
 function setup() {
-  createCanvas(1920, 1080);
+  Screen.CreateCanvas();
   background(0);
 
   Engine.init();
 
+  game = new Game();
+  game.start();
   //Engine.setScene(new Ending());
   //game.cookingIteration = 0;
   //game.moveToNextGame();
@@ -93,18 +45,24 @@ function setup() {
   //Engine.setScene(new Convo());
 
   //game.setNextGameByIndex(0);
-  // game.moveToNextGame();
+  //game.moveToNextGame();
   //Engine.setScene(new MainMenu());
-  Engine.setScene(new MainMenu());
+
+  //Engine.setScene(new Introduction());
 
   //game.cookingIteration = 2;
   //game.setNextGameByIndex(0);
 }
 
 function draw() {
+
   background(0);
   Engine.run();
+
+  push();
+  Screen.applyTransform();
   Engine.draw();
+  pop();
   // if(Engine.currentScene != null){
   //   Engine.currentScene.run();
   //   Engine.currentScene.draw(Engine.renderer);
@@ -203,7 +161,7 @@ class AttachToMouse extends GameObjectComponent{
     this.y = y;
   }
   run(){
-    let localMouse = getMouseVector();
+    let localMouse = Screen.getMouseVector();
     localMouse.x += this.x;
     localMouse.y += this.y;
     if(this.owner.transform.parent != null){

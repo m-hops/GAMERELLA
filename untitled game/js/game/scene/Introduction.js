@@ -28,8 +28,9 @@ class Introduction extends Scene{
 
   }
 
-  constructor(){
+  constructor(game){
     super();
+    this.game = game;
   }
   onSetup(){
 
